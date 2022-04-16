@@ -4,12 +4,43 @@
   
     
     <entry>
+      <title>Java学习--泛型</title>
+      <link href="/2022/04/16/Java%E5%AD%A6%E4%B9%A0-%E6%B3%9B%E5%9E%8B/"/>
+      <url>/2022/04/16/Java%E5%AD%A6%E4%B9%A0-%E6%B3%9B%E5%9E%8B/</url>
+      
+        <content type="html"><![CDATA[<h3 id="本质：参数化类型-所操作的数据类型被指定为一个参数"><a href="#本质：参数化类型-所操作的数据类型被指定为一个参数" class="headerlink" title="本质：参数化类型(所操作的数据类型被指定为一个参数)"></a>本质：参数化类型(所操作的数据类型被指定为一个参数)</h3><h3 id="为什么引入泛型"><a href="#为什么引入泛型" class="headerlink" title="为什么引入泛型"></a>为什么引入泛型</h3><ol><li>对于容器类型，如数组、ArrayList、HashMap等，使用数组时需要指定所装的对象类型，如：</li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arr;</span><br><span class="line">String[] arr = <span class="keyword">new</span> <span class="title class_">String</span>[length];</span><br></pre></td></tr></table></figure><ol><li>对于集合类型容器，如ArrayList、HashMap、TreeSet等，它们不但是容器，还提供了一些方法对容器内对象的操作方法，如get，set，sort。这个时候就需要知道容器内放的是什么类型的对象，才能return或set。正因为程序开发人员可能把任何类型的对象放进集合容器，所以这些容器在设计的时候只设计成Object类型对象，因为Object是根类；</li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ListContainer</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object obj;</span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">getObj</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setObj</span><span class="params">(Object obj)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.obj = obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ol><li>这样的话，根据多态，容器就能装任何类型的对象了。不过，取出对象时则需求进行强制类型转换，转换成实际的类型。但这样会有很多类型不安全问题，为什么呢？因为编译器没法帮忙做类型检查，导致代码在运行时易于出现ClassCastException异常。</li><li>利用泛型，重新设计，参数化类型</li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ListContainer</span>&lt;T&gt;&#123;</span><br><span class="line">    <span class="keyword">private</span> T obj;</span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">getObj</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setObj</span><span class="params">(T obj)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.obj = obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ol><li><p>这里的<T>的 T 的类型的参数，具体 T 指代什么类型，在调用时再指定，如</p><p>ListContainer<String> myCon &#x3D; new ListContainer&lt;&gt;();</p></li></ol><h3 id="泛型标记符"><a href="#泛型标记符" class="headerlink" title="泛型标记符"></a>泛型标记符</h3><ul><li><strong>E</strong> - Element (在集合中使用，因为集合中存放的是元素)</li><li><strong>T</strong> - Type（Java 类）</li><li><strong>K</strong> - Key（键）</li><li><strong>V</strong> - Value（值）</li><li><strong>N</strong> - Number（数值类型）</li><li><strong>？</strong>- 表示不确定的 java 类型</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> java成长之路 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 泛型 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>第一篇博客</title>
       <link href="/2022/04/13/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
       <url>/2022/04/13/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
       
         <content type="html"><![CDATA[<p> 愿你精疲力尽时有树倚</p>]]></content>
       
+      
+      <categories>
+          
+          <category> 随想 </category>
+          
+      </categories>
       
       
         <tags>
