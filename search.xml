@@ -4,6 +4,44 @@
   
     
     <entry>
+      <title>MySql中UTF-8编码总结</title>
+      <link href="/2022/04/25/MySql%E4%B8%ADUTF-8%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/"/>
+      <url>/2022/04/25/MySql%E4%B8%ADUTF-8%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/</url>
+      
+        <content type="html"><![CDATA[<p>在<code>MySQL</code>中，<code>UTF-8</code> 编码只<strong>支持每个字符最多三个字节</strong>，而真正的 <code>UTF-8 </code> 是每个字符最多四个字节。 在<code>UTF-8</code> 编码中，中文是占3个字节，其他数字、英文、符号占一个字节。 但<code>emoji</code>符号占4个字节，一些较复杂的文字、繁体字也是4个字节，在<code>MySQL</code> 中应使用<code>utf8mb4</code> 编码。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 疑难解答 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 编码集 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>设计模式</title>
+      <link href="/2022/04/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <url>/2022/04/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>MySql学习-索引</title>
       <link href="/2022/04/23/MySql%E5%AD%A6%E4%B9%A0-%E7%B4%A2%E5%BC%95/"/>
       <url>/2022/04/23/MySql%E5%AD%A6%E4%B9%A0-%E7%B4%A2%E5%BC%95/</url>
