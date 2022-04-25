@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>categories |  平凡之路</title>
+      <title>MySql学习-索引 |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -52,12 +52,212 @@
       
     <main class="content on">
       <section class="outer">
+  <article
+  id="post-MySql学习-索引"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  MySql学习-索引
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/04/23/MySql%E5%AD%A6%E4%B9%A0-%E7%B4%A2%E5%BC%95/" class="article-date">
+  <time datetime="2022-04-23T15:48:58.000Z" itemprop="datePublished">2022-04-23</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86/">数据库知识</a>
+  </div>
   
-    <h1 class="page-type-title">分类</h1>
-    <div class="categories-box">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/">java成长之路</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86/">数据库知识</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E6%83%B3/">随想</a><span class="category-list-count">1</span></li></ul>
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">810</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">2 分钟</span>
+        </span>
+    </span>
+</div>
+ 
     </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
   
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h3><ol>
+<li>索引是在数据库表的字段上添加的，是为了提高查询效率存在的一种机制。一张表的一个字段可以添加一个索引，多个字段联合起来也可以添加索引</li>
+</ol>
+<h3 id="索引的实现原理"><a href="#索引的实现原理" class="headerlink" title="索引的实现原理"></a>索引的实现原理</h3><ol>
+<li>在<code>MySql</code> 数据库当中索引是需要排序的，<code>因为只有排序才会有区间查找，也能缩小范围</code>，并且这个排序和<code>TreeSet</code> 数据结构相同，其底层是一个自平衡的二叉树，在<code>MySql</code> 中索引是一个B-Tree数据结构。</li>
+<li>遵循左小右大原则存放，采用中序遍历方式遍历数据</li>
+<li>在任何数据库当中，主键上都会自动添加索引对象，在<code>MySql</code> 当中，一个字段上如果有unique约束的话，也会自动创建索引对象</li>
+<li>在任何数据库当中，任何一张表的任何一条记录在硬盘存储上都有一个硬盘的物理存储编号</li>
+<li>在<code>MySql</code> 中，索引是一个单独的对象，不同的存储引擎以不同的形式存在，在<code>MyISAM</code> 存储引擎中，索引存储在一个<code>.MYI</code> 文件中；在<code>InnoDB</code> 存储引擎中索引被存储在一个逻辑名称叫<code>tablespace</code> 的当中；在MEMORY存储引擎中索引被存储在内存当中。不管索引存储在哪里，索引在<code>MySql</code> 当中都是一个树的形式存在<code>平衡二叉树</code> 。</li>
+</ol>
+<h3 id="什么条件下会添加索引"><a href="#什么条件下会添加索引" class="headerlink" title="什么条件下会添加索引"></a>什么条件下会添加索引</h3><ol>
+<li><p>数据量庞大</p>
+</li>
+<li><p>该字段经常出现在where的后面，以条件的形式存在，也就是做这个字段总被扫描</p>
+</li>
+<li><p>该字段很少的<code>DML</code> 操作，因为<code>DML</code> 后，索引需要重新排序</p>
+<blockquote>
+<p>建议不要随意添加索引，因为索引也是要维护的，太多的话反而会降低系统的性能</p>
+<p>建议通过主键或unique约束的字段进行查询，效率是比较高的</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="索引的创建"><a href="#索引的创建" class="headerlink" title="索引的创建"></a>索引的创建</h3><blockquote>
+<p>masql&gt;CREATE INDEX indexName ON table_name (column_name)</p>
+</blockquote>
+<h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><ol>
+<li><p>select * from table where name like ‘%T’&#96; name上即使添加了索引，也不会走索引，因为模糊匹配当中以“%”开头了，尽量避免模糊查询的时候以“%”开始 </p>
+</li>
+<li><p>使用or的时候会失效，如果使用or那么要求or两边字段都要有索引，才会走索引，如果其中一边有一个字段没有索引，那么另一个字段上的索引也会实现，所以这就是为什么不建议使用or的原因</p>
+</li>
+<li><p>使用复合索引的时候，没有使用左侧的列查询，索引失效</p>
+</li>
+<li><p>在where当中索引列参加了运算，索引失效</p>
+</li>
+<li><p>在where当中索引列使用了函数</p>
+</li>
+<li><p>索引是各种数据库进行优化的重要手段，优化的时候优先考虑的因素就是索引</p>
+<ul>
+<li><p>单一索引：一个字段上添加索引</p>
+</li>
+<li><p>复合索引：两个字段或更多的字段上添加索引</p>
+</li>
+<li><p>主键索引：主键上添加索引</p>
+</li>
+<li><p>唯一性索引：具有unique的约束的字段上添加索引</p>
+<blockquote>
+<p>唯一性比较弱的字段上添加索引用处不大</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/04/23/MySql%E5%AD%A6%E4%B9%A0-%E7%B4%A2%E5%BC%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/04/20/MySql%E5%AD%A6%E4%B9%A0-%E4%BA%8B%E5%8A%A1/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">MySql学习--事务</div>
+      </a>
+    
+  </nav>
+
+  
+   
+    
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
 </section>
       <footer class="footer">
   <div class="outer">
@@ -183,6 +383,22 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
 
 <script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
 <link
