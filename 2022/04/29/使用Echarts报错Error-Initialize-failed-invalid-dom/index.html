@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>设计模式 |  平凡之路</title>
+      <title>使用Echarts报错 |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-设计模式"
+  id="post-使用Echarts报错Error-Initialize-failed-invalid-dom"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  设计模式
+  使用Echarts报错
 </h1>
  
 
@@ -72,11 +72,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/04/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="article-date">
-  <time datetime="2022-04-25T15:10:40.000Z" itemprop="datePublished">2022-04-25</time>
+      <a href="/2022/04/29/%E4%BD%BF%E7%94%A8Echarts%E6%8A%A5%E9%94%99Error-Initialize-failed-invalid-dom/" class="article-date">
+  <time datetime="2022-04-29T15:00:09.000Z" itemprop="datePublished">2022-04-29</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+    <a class="article-category-link" href="/categories/%E7%96%91%E9%9A%BE%E8%A7%A3%E7%AD%94/">疑难解答</a>
   </div>
   
 <div class="word_count">
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">850</span>
+            <span class="post-count">209</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">1 分钟</span>
         </span>
     </span>
 </div>
@@ -108,48 +108,15 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h3 id="设计模式的类型"><a href="#设计模式的类型" class="headerlink" title="设计模式的类型"></a>设计模式的类型</h3><p>共有23中设计模式，这些模式可以分为三大类：创建型模式<code>Creational Patterns </code> ，结构型模式<code>Structral Patterns</code> ，行为型模式<code>Behavioral Patterns</code> 。</p>
-<h5 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h5><p>​	提供了一种在创建对象的同时隐藏创建逻辑的方式，而不是使用 new 运算符直接实例化对象。这使得程序在判断针对某个给定实例需要创建哪些对象时更加灵活。</p>
-<ol>
-<li>工厂模式（Factory Pattern）</li>
-<li>抽象工厂模式（Abstract Factory Pattern）</li>
-<li>单例模式（Singleton Pattern）</li>
-<li>建造者模式（Builder Pattern）</li>
-<li>原型模式（Prototype Pattern）</li>
-</ol>
-<h5 id="结构型模式"><a href="#结构型模式" class="headerlink" title="结构型模式"></a>结构型模式</h5><p>​	关注类和对象的组合。继承的概念被用来组合接口和定义组合对象获得新功能的方式。</p>
-<ol>
-<li>适配器模式（Adapter Pattern）</li>
-<li>桥接模式（Bridge Pattern）</li>
-<li>过滤器模式（Filter、Criteria Pattern）</li>
-<li>组合模式（Composite Pattern）</li>
-<li>装饰器模式（Decorator Pattern）</li>
-<li>外观模式（Facade Pattern）</li>
-<li>享元模式（Flyweight Pattern）</li>
-<li>代理模式（Proxy Pattern）</li>
-</ol>
-<h5 id="行为型模式"><a href="#行为型模式" class="headerlink" title="行为型模式"></a>行为型模式</h5><p>​	关注对象之间的通信。</p>
-<ol>
-<li>责任链模式（Chain of Responsibility Pattern）</li>
-<li>命令模式（Command Pattern）</li>
-<li>解释器模式（Interpreter Pattern）</li>
-<li>迭代器模式（Iterator Pattern）</li>
-<li>中介者模式（Mediator Pattern）</li>
-<li>备忘录模式（Memento Pattern）</li>
-<li>观察者模式（Observer Pattern）</li>
-<li>状态模式（State Pattern）</li>
-<li>空对象模式（Null Object Pattern）</li>
-<li>策略模式（Strategy Pattern）</li>
-<li>模板模式（Template Pattern）</li>
-<li>访问者模式（Visitor Pattern）</li>
-</ol>
-<h3 id="设计模式的六大原则"><a href="#设计模式的六大原则" class="headerlink" title="设计模式的六大原则"></a>设计模式的六大原则</h3><h5 id="1-开闭原则（Open-Close-Principle）"><a href="#1-开闭原则（Open-Close-Principle）" class="headerlink" title="1. 开闭原则（Open Close Principle）"></a>1. 开闭原则（Open Close Principle）</h5><p>​	即对扩展开放，对修改关闭。在程序需要进行扩展的时候，不能去修改原有的代码，实现一个热插拔的效果。使程序的扩展性更好，易于维护和升级。通常采用接口和抽象类来实现。</p>
-<h5 id="2-里氏代换原则（Liskov-Substitution-Principle）"><a href="#2-里氏代换原则（Liskov-Substitution-Principle）" class="headerlink" title="2. 里氏代换原则（Liskov Substitution Principle）"></a>2. 里氏代换原则（Liskov Substitution Principle）</h5><p>​	 里氏代换原则中说，任何基类可以出现的地方，子类一定可以出现。LSP 是继承复用的基石，只有当派生类可以替换掉基类，且软件单位的功能不受到影响时，基类才能真正被复用，而派生类也能够在基类的基础上增加新的行为。里氏代换原则是对开闭原则的补充。实现开闭原则的关键步骤就是抽象化，而基类与子类的继承关系就是抽象化的具体实现，所以里氏代换原则是对实现抽象化的具体步骤的规范。</p>
-<h5 id="3-依赖倒转原则（Dependence-Inversion-Principle）"><a href="#3-依赖倒转原则（Dependence-Inversion-Principle）" class="headerlink" title="3. 依赖倒转原则（Dependence Inversion Principle）"></a>3. 依赖倒转原则（Dependence Inversion Principle）</h5><p>​	这个原则是开闭原则的基础，具体内容：针对接口编程，依赖于抽象而不依赖于具体。</p>
-<p><strong>4、接口隔离原则（Interface Segregation Principle）</strong></p>
-<p>​	这个原则的意思是：使用多个隔离的接口，比使用单个接口要好。它还有另外一个意思是：降低类之间的耦合度。由此可见，其实设计模式就是从大型软件架构出发、便于升级和维护的软件设计思想，它强调降低依赖，降低耦合。</p>
-<h5 id="5-迪米特法则，又称最少知道原则（Demeter-Principle）"><a href="#5-迪米特法则，又称最少知道原则（Demeter-Principle）" class="headerlink" title="5. 迪米特法则，又称最少知道原则（Demeter Principle）"></a>5. 迪米特法则，又称最少知道原则（Demeter Principle）</h5><p>​	最少知道原则是指：一个实体应当尽量少地与其他实体之间发生相互作用，使得系统功能模块相对独立。</p>
-<h5 id="6-合成复用原则（Composite-Reuse-Principle）"><a href="#6-合成复用原则（Composite-Reuse-Principle）" class="headerlink" title="6. 合成复用原则（Composite Reuse Principle）"></a>6. 合成复用原则（Composite Reuse Principle）</h5><p>​	合成复用原则是指：尽量使用合成&#x2F;聚合的方式，而不是使用继承。</p>
+  <h3 id="使用Echarts-报错Error-Initialize-failed-invalid-dom"><a href="#使用Echarts-报错Error-Initialize-failed-invalid-dom" class="headerlink" title="使用Echarts 报错Error: Initialize failed: invalid dom."></a><strong>使用<code>Echarts</code> 报错<code>Error: Initialize failed: invalid dom.</code></strong></h3><blockquote>
+<p><code>[Vue warn]: Error in mounted hook: &quot;Error: Initialize failed:invalid dom.&quot;</code></p>
+</blockquote>
+<h4 id="报错代码："><a href="#报错代码：" class="headerlink" title="报错代码："></a>报错代码：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">created</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">getChart</span>();</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">methods</span>: &#123;</span><br><span class="line">    <span class="title function_">getChart</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> option = &#123;</span><br><span class="line">        <span class="attr">title</span>: &#123;</span><br><span class="line">          <span class="attr">text</span>: <span class="string">&quot;会员性别数量统计&quot;</span>,</span><br><span class="line">          <span class="attr">subtext</span>: <span class="string">&quot;趋势图&quot;</span>,</span><br><span class="line">          <span class="attr">left</span>: <span class="string">&quot;center&quot;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">xAxis</span>: &#123;</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">          <span class="attr">data</span>: [<span class="string">&quot;女&quot;</span>, <span class="string">&quot;男&quot;</span>],</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">yAxis</span>: &#123;</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&quot;value&quot;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">series</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">data</span>: [],</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">data</span>: [],</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&quot;bar&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> chartDom = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;main&quot;</span>);</span><br><span class="line">      <span class="keyword">var</span> myChart = echarts.<span class="title function_">init</span>(chartDom);<span class="comment">//报错</span></span><br><span class="line"></span><br><span class="line">      <span class="title class_">Echarts</span>().<span class="title function_">then</span>(<span class="function">(<span class="params">&#123; data: res &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">        option.<span class="property">series</span>[<span class="number">0</span>].<span class="property">data</span> = res.<span class="property">data</span>;</span><br><span class="line">        option.<span class="property">series</span>[<span class="number">1</span>].<span class="property">data</span> = res.<span class="property">data</span>;</span><br><span class="line">        myChart.<span class="title function_">setOption</span>(option);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="原因分析："><a href="#原因分析：" class="headerlink" title="原因分析："></a>原因分析：</h4><p><code>created</code> 中元素还未挂载到页面，此时操作DOM则会报错。</p>
+<h4 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h4><p>在<code>mounted</code> 中调用操作元素的方法，当页面执行到<code>mounted</code> 时，该页面所有元素都已经挂载完成。</p>
+<h4 id="实例："><a href="#实例：" class="headerlink" title="实例："></a>实例：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">getChart</span>();</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
  
       <!-- reward -->
       
@@ -214,12 +181,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/04/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/04/29/%E4%BD%BF%E7%94%A8Echarts%E6%8A%A5%E9%94%99Error-Initialize-failed-invalid-dom/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Echarts/" rel="tag">Echarts</a></li></ul>
 
     </footer>
   </div>
@@ -227,19 +194,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/04/25/MySql%E4%B8%ADUTF-8%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            MySql中UTF-8编码总结
-          
-        </div>
-      </a>
     
-    
-      <a href="/2022/04/23/MySql%E5%AD%A6%E4%B9%A0-%E7%B4%A2%E5%BC%95/" class="article-nav-link">
+      <a href="/2022/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">MySql学习-索引</div>
+        <div class="article-nav-title">设计模式--单例模式</div>
       </a>
     
   </nav>
