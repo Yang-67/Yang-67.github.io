@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>使用Echarts报错 |  平凡之路</title>
+      <title>MyBatis易错题总结 |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-使用Echarts报错Error-Initialize-failed-invalid-dom"
+  id="post-MyBatis易错题总结"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  使用Echarts报错
+  MyBatis易错题总结
 </h1>
  
 
@@ -72,8 +72,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/04/29/%E4%BD%BF%E7%94%A8Echarts%E6%8A%A5%E9%94%99Error-Initialize-failed-invalid-dom/" class="article-date">
-  <time datetime="2022-04-29T15:00:09.000Z" itemprop="datePublished">2022-04-29</time>
+      <a href="/2022/05/05/MyBatis%E6%98%93%E9%94%99%E9%A2%98%E6%80%BB%E7%BB%93/" class="article-date">
+  <time datetime="2022-05-04T16:02:30.000Z" itemprop="datePublished">2022-05-05</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E7%96%91%E9%9A%BE%E8%A7%A3%E7%AD%94/">疑难解答</a>
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">209</span>
+            <span class="post-count">1.6k</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">5 分钟</span>
         </span>
     </span>
 </div>
@@ -108,15 +108,63 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h3 id="使用Echarts-报错Error-Initialize-failed-invalid-dom"><a href="#使用Echarts-报错Error-Initialize-failed-invalid-dom" class="headerlink" title="使用Echarts 报错Error: Initialize failed: invalid dom."></a><strong>使用<code>Echarts</code> 报错<code>Error: Initialize failed: invalid dom.</code></strong></h3><blockquote>
-<p><code>[Vue warn]: Error in mounted hook: &quot;Error: Initialize failed:invalid dom.&quot;</code></p>
+  <h5 id="1-和-的区别是什么？"><a href="#1-和-的区别是什么？" class="headerlink" title="1. #{}和${}的区别是什么？"></a>1. #{}和${}的区别是什么？</h5><ol>
+<li><code>$&#123;&#125;</code>是 Properties 文件中的变量占位符，它可以用于标签属性值和<code> sql</code>内部，属于静态文本替换，比如${driver}会被静态替换为<code>com.mysql.jdbc. Driver</code>。</li>
+<li><code>#&#123;&#125;</code>是 <code>sql</code> 的参数占位符，<code>MyBatis</code> 会将 <code>sql</code> 中的<code>#&#123;&#125;</code>替换为? 号，在 <code>sql</code> 执行前会使用 <code>PreparedStatement</code> 的参数设置方法，按序给 <code>sql</code> 的<code>? </code>号占位符设置参数值，比如 <code>ps.setInt(0, parameterValue)</code>，<code>#&#123;item.name&#125;</code> 的取值方式为使用反射从参数对象中获取 <code>item</code> 对象的<code> name</code> 属性值，相当于 <code>param.getItem().getName()</code></li>
+</ol>
+<h5 id="2-Xml-映射文件中，除了常见的-select-insert-update-delete-标签之外，还有哪些标签？"><a href="#2-Xml-映射文件中，除了常见的-select-insert-update-delete-标签之外，还有哪些标签？" class="headerlink" title="2. Xml 映射文件中，除了常见的 select|insert|update|delete 标签之外，还有哪些标签？"></a>2. <code>Xml </code>映射文件中，除了常见的 select|insert|update|delete 标签之外，还有哪些标签？</h5><ol>
+<li>还有很多其他的标签， <code>&lt;resultMap&gt;</code> 、 <code>&lt;parameterMap&gt;</code> 、 <code>&lt;sql&gt;</code> 、 <code>&lt;include&gt;</code> 、 <code>&lt;selectKey&gt;</code> ，加上动态<code> sql</code> 的 9 个标签， <code>trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中 <code>&lt;sql&gt;</code> 为 <code>sql</code> 片段标签，通过 <code>&lt;include&gt;</code> 标签引入 <code>sql</code> 片段， <code>&lt;selectKey&gt;</code> 为不支持自增的主键生成策略标签</li>
+</ol>
+<h5 id="3-最佳实践中，通常一个xml映射文件，都会写一个Dao接口与之对应，那这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能不能重载？"><a href="#3-最佳实践中，通常一个xml映射文件，都会写一个Dao接口与之对应，那这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能不能重载？" class="headerlink" title="3. 最佳实践中，通常一个xml映射文件，都会写一个Dao接口与之对应，那这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能不能重载？"></a>3. 最佳实践中，通常一个<code>xml</code>映射文件，都会写一个<code>Dao</code>接口与之对应，那这个<code>Dao</code>接口的工作原理是什么？<code>Dao</code>接口里的方法，参数不同时，方法能不能重载？</h5><ol>
+<li><code>Dao</code>接口的工作原理是<code>JDK</code>动态代理，<code>MyBatis</code>运行时会使用<code>JDK</code>动态代理为<code>Dao</code>接口生成代理proxy对象，代理对象proxy会拦截接口方法，转而执行<code>MappedStatementsuodaib</code>的<code>sql</code>，然后将<code>sql</code>执行结果返回。</li>
+<li><code>Dao</code>接口方法可以重载，但要满足一下条件<ul>
+<li>仅有一个无参方法和一个有参方法</li>
+<li>多个有参方法时，参数数量必须一致，且使用相同的<code>@Param</code></li>
+<li>多个接口对应的映射必须只有一个，即<code>xml</code>里的<code>id</code>不允许重复</li>
+</ul>
+</li>
+</ol>
+<h5 id="4-MyBatis是如何进行分页的？分页插件的原理是什么？"><a href="#4-MyBatis是如何进行分页的？分页插件的原理是什么？" class="headerlink" title="4. MyBatis是如何进行分页的？分页插件的原理是什么？"></a>4. <code>MyBatis</code>是如何进行分页的？分页插件的原理是什么？</h5><ol>
+<li><p><code>MyBatis </code>使用 <code>RowBounds </code>对象进行分页，它是针对<code>ResultSet</code>结果集执行的内存分页，而非物理分页</p>
+</li>
+<li><p>可以在 <code>sql</code> 内直接书写带有物理分页的参数来完成物理分页功能</p>
+</li>
+<li><p>也可以使用分页插件来完成物理分页</p>
+<p>分页插件的基本原理是使用<code>MyBatis</code>提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的 <code>sql</code>，然后重写<code> sql</code>，根据 dialect 方言，添加对应的物理分页语句和物理分页参数。</p>
+<blockquote>
+<p><code>select _ from student</code> ，拦截 <code>sql</code> 后重写为： <code>select t._ from （select \* from student）t limit 0，10</code></p>
 </blockquote>
-<h4 id="报错代码："><a href="#报错代码：" class="headerlink" title="报错代码："></a>报错代码：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">created</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">getChart</span>();</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">methods</span>: &#123;</span><br><span class="line">    <span class="title function_">getChart</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> option = &#123;</span><br><span class="line">        <span class="attr">title</span>: &#123;</span><br><span class="line">          <span class="attr">text</span>: <span class="string">&quot;会员性别数量统计&quot;</span>,</span><br><span class="line">          <span class="attr">subtext</span>: <span class="string">&quot;趋势图&quot;</span>,</span><br><span class="line">          <span class="attr">left</span>: <span class="string">&quot;center&quot;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">xAxis</span>: &#123;</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&quot;category&quot;</span>,</span><br><span class="line">          <span class="attr">data</span>: [<span class="string">&quot;女&quot;</span>, <span class="string">&quot;男&quot;</span>],</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">yAxis</span>: &#123;</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&quot;value&quot;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">series</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">data</span>: [],</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&quot;line&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">data</span>: [],</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&quot;bar&quot;</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> chartDom = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;main&quot;</span>);</span><br><span class="line">      <span class="keyword">var</span> myChart = echarts.<span class="title function_">init</span>(chartDom);<span class="comment">//报错</span></span><br><span class="line"></span><br><span class="line">      <span class="title class_">Echarts</span>().<span class="title function_">then</span>(<span class="function">(<span class="params">&#123; data: res &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">        option.<span class="property">series</span>[<span class="number">0</span>].<span class="property">data</span> = res.<span class="property">data</span>;</span><br><span class="line">        option.<span class="property">series</span>[<span class="number">1</span>].<span class="property">data</span> = res.<span class="property">data</span>;</span><br><span class="line">        myChart.<span class="title function_">setOption</span>(option);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="原因分析："><a href="#原因分析：" class="headerlink" title="原因分析："></a>原因分析：</h4><p><code>created</code> 中元素还未挂载到页面，此时操作DOM则会报错。</p>
-<h4 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h4><p>在<code>mounted</code> 中调用操作元素的方法，当页面执行到<code>mounted</code> 时，该页面所有元素都已经挂载完成。</p>
-<h4 id="实例："><a href="#实例：" class="headerlink" title="实例："></a>实例：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">getChart</span>();</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-
+</li>
+</ol>
+<h5 id="5-MyBatis执行批量插入，能返回数据库主键列表吗？"><a href="#5-MyBatis执行批量插入，能返回数据库主键列表吗？" class="headerlink" title="5. MyBatis执行批量插入，能返回数据库主键列表吗？"></a>5. <code>MyBatis</code>执行批量插入，能返回数据库主键列表吗？</h5><ol>
+<li>能，<code>JDBC</code>与<code>MyBatis</code>都可以</li>
+</ol>
+<h5 id="6-MyBatis动态sql是做什么的？都有哪些动态sql？简述动态sql的执行原理"><a href="#6-MyBatis动态sql是做什么的？都有哪些动态sql？简述动态sql的执行原理" class="headerlink" title="6. MyBatis动态sql是做什么的？都有哪些动态sql？简述动态sql的执行原理"></a>6. <code>MyBatis</code>动态<code>sql</code>是做什么的？都有哪些动态<code>sql</code>？简述动态<code>sql</code>的执行原理</h5><ol>
+<li><code>MyBatis</code>动态<code>sql</code>可以让我们在<code>xml</code>映射文件内，以标签的形式编写动态<code>sql</code>，完成逻辑判断和动态拼接<code>sql</code>的功能，<code>MyBatis</code>提供了9种动态<code>sql</code>标签<code>trim|where|set|foreach|if|choose|when|otherwise|bind</code></li>
+<li>执行原理为，使用<code>OGNL</code>从<code>sql</code>参数对象中计算表达式的值，根据表达式的值动态拼接<code>sql</code>，以此来完成动态<code>sql</code>的功能</li>
+</ol>
+<h5 id="7-MyBatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？"><a href="#7-MyBatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？" class="headerlink" title="7. MyBatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？"></a>7. <code>MyBatis</code>是如何将<code>sql</code>执行结果封装为目标对象并返回的？都有哪些映射形式？</h5><ol>
+<li>使用<code>&lt;resultMap&gt;</code> 标签，逐一定义列名和对象属性名之间的映射关系</li>
+<li>使用<code>sql</code>列的别名功能，将列别名书写为对象属性名</li>
+<li>有了列名与属性名的映射关系后，<code>MyBatis</code>通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的</li>
+</ol>
+<h5 id="8-MyBatis能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别"><a href="#8-MyBatis能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别" class="headerlink" title="8. MyBatis能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别"></a>8. <code>MyBatis</code>能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别</h5><ol>
+<li>关联对象查询，有两种实现方式，一种是单独发送一个<code>sql</code>去查询关联对象，赋给主对象，然后返回主对象；另一种是使用嵌套查询，嵌套查询的含义为使用<code>jion</code>查询，一部分列是A对象的属性值，另一部分列是关联对象B的属性值，好处是只发一个<code>sql</code>查询，就可以把主对象和其关联对象查出来。</li>
+</ol>
+<h5 id="9-MyBatis是否支持延迟加载？如果支持，它的实现原理是什么？"><a href="#9-MyBatis是否支持延迟加载？如果支持，它的实现原理是什么？" class="headerlink" title="9. MyBatis是否支持延迟加载？如果支持，它的实现原理是什么？"></a>9. <code>MyBatis</code>是否支持延迟加载？如果支持，它的实现原理是什么？</h5><ol>
+<li><code>MyBatis</code> 仅支持 <code>association</code> 关联对象和 <code>collection</code> 关联集合对象的延迟加载，<code>association</code> 指的就是一对一，<code>collection</code> 指的就是一对多查询。在 <code>MyBatis</code> 配置文件中，可以配置是否启用延迟加载 <code>lazyLoadingEnabled=true|false。</code></li>
+<li>它的原理是，使用 <code>CGLIB</code> 创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用 <code>a.getB().getName()</code> ，拦截器 <code>invoke()</code> 方法发现 <code>a.getB()</code> 是 null 值，那么就会单独发送事先保存好的查询关联 B 对象的 <code>sql</code>，把 B 查询上来，然后调用 <code>a.setB(b)</code>，于是 a 的对象 b 属性就有值了，接着完成 <code>a.getB().getName()</code> 方法的调用。</li>
+</ol>
+<h5 id="10-MyBatis的xml映射文件中，不同的xml映射文件，id是否可以重复"><a href="#10-MyBatis的xml映射文件中，不同的xml映射文件，id是否可以重复" class="headerlink" title="10. MyBatis的xml映射文件中，不同的xml映射文件，id是否可以重复"></a>10. <code>MyBatis</code>的<code>xml</code>映射文件中，不同的<code>xml</code>映射文件，id是否可以重复</h5><ol>
+<li>不同的<code>xml</code>映射文件，如果配置了<code>namespace</code>，那么id可以重复；如果没有配置<code>namespace</code>，那么<code>id</code>不能重复</li>
+<li>原因是<code>namespace+id</code>是作为<code>Map&lt;String, MappedStatement&gt;</code>的<code>key</code>使用的，如果没有<code>namespace</code>，就只剩下<code>id</code>，那么<code>id</code>重复会导致数据相互覆盖，有了<code>namespace</code>，自然id就可以重复，<code>namespace</code>不同，<code>namespace+id</code>自然也就不同</li>
+</ol>
+<h5 id="11-MyBatis中如何执行批处理"><a href="#11-MyBatis中如何执行批处理" class="headerlink" title="11. MyBatis中如何执行批处理"></a>11. <code>MyBatis</code>中如何执行批处理</h5><ol>
+<li>使用<code>BatchExecutor</code>完成批处理</li>
+</ol>
+<h5 id="12-MyBatis是否可以映射Enum枚举类"><a href="#12-MyBatis是否可以映射Enum枚举类" class="headerlink" title="12. MyBatis是否可以映射Enum枚举类"></a>12. <code>MyBatis</code>是否可以映射<code>Enum</code>枚举类</h5><ol>
+<li><code>MyBatis</code> 可以映射枚举类，不单可以映射枚举类，<code>MyBatis</code> 可以映射任何对象到表的一列上。映射方式为自定义一个 <code>TypeHandler</code> ，实现 <code>TypeHandler</code> 的 <code>setParameter()</code> 和 <code>getResult()</code> 接口方法。 <code>TypeHandler</code> 有两个作用，一是完成从 <code>javaType</code> 至 <code>jdbcType</code> 的转换，二是完成 <code>jdbcType</code> 至 <code>javaType</code> 的转换，体现为 <code>setParameter()</code> 和 <code>getResult()</code> 两个方法，分别代表设置 <code>sql</code> 问号占位符参数和获取列查询结果</li>
+</ol>
  
       <!-- reward -->
       
@@ -181,12 +229,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/04/29/%E4%BD%BF%E7%94%A8Echarts%E6%8A%A5%E9%94%99Error-Initialize-failed-invalid-dom/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/05/MyBatis%E6%98%93%E9%94%99%E9%A2%98%E6%80%BB%E7%BB%93/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Echarts/" rel="tag">Echarts</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MyBatis/" rel="tag">MyBatis</a></li></ul>
 
     </footer>
   </div>
@@ -194,19 +242,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/05/01/spring-boot%E5%A6%82%E4%BD%95%E5%8E%BB%E8%8E%B7%E5%8F%96%E5%89%8D%E7%AB%AF%E4%BC%A0%E9%80%92%E7%9A%84%E5%8F%82%E6%95%B0/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            spring-boot如何去获取前端传递的参数
-          
-        </div>
-      </a>
     
-    
-      <a href="/2022/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="article-nav-link">
+      <a href="/2022/05/01/%E8%B0%88-Autowired%E5%92%8C-Resource%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">设计模式--单例模式</div>
+        <div class="article-nav-title">谈@Autowired和@Resource注解的区别</div>
       </a>
     
   </nav>
