@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>谈@Autowired和@Resource注解的区别 |  平凡之路</title>
+      <title>面向对象思想 |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-谈-Autowired和-Resource注解的区别"
+  id="post-面向对象思想"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  谈@Autowired和@Resource注解的区别
+  面向对象思想
 </h1>
  
 
@@ -72,11 +72,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/05/01/%E8%B0%88-Autowired%E5%92%8C-Resource%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-  <time datetime="2022-05-01T15:54:15.000Z" itemprop="datePublished">2022-05-01</time>
+      <a href="/2022/05/06/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/" class="article-date">
+  <time datetime="2022-05-06T15:32:38.000Z" itemprop="datePublished">2022-05-06</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/spring-boot/">spring-boot</a>
+    <a class="article-category-link" href="/categories/java%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/">java成长之路</a>
   </div>
   
 <div class="word_count">
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.2k</span>
+            <span class="post-count">1.6k</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">4 分钟</span>
+            <span class="post-count">5 分钟</span>
         </span>
     </span>
 </div>
@@ -108,94 +108,84 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <hr>
-<h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><h5 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h5><p><code>@Autowired</code> 和<code>@Resource</code> 可以对成员变量、方法或构造函数进行标注，来完成自动装配的工作。</p>
-<h5 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h5><ol>
-<li><p><code>@Autowired</code> 默认按类型装配(这个注解是属于<code>spring</code> 的)，默认情况下必须要求依赖对象存在，如果要允许<code>null</code> 值，可以设置它的<code>required</code> 属性为<code>false</code> ，如<code>@Autowired(required=false)</code> ，如果想使用名称装配可以结合<code>@Qualifier</code> 注解进行使用，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired(required = false)</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;userDto&quot;)</span></span><br><span class="line"><span class="keyword">private</span> UserDto userDto;</span><br></pre></td></tr></table></figure>
+  <h3 id="一、三大特性"><a href="#一、三大特性" class="headerlink" title="一、三大特性"></a>一、三大特性</h3><h5 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h5><p>利用抽象数据类型将数据和基于数据的操作封装在一起，使其构成一个不可分割的独立实体。数据被保护在抽象数据类型的内部，尽可能地隐藏内部的细节，只保留一些对外的接口使其与外部发生联系。用户无需关心对象内部的细节，但可以通过对象对外提供的接口来访问该对象。</p>
+<p>优点：</p>
+<ul>
+<li>减少耦合：可以独立地开发、测试、优化、使用、理解和修改</li>
+<li>减轻维护的负担：可以更容易被理解，并且在调试的时候可以不影响其他模块</li>
+<li>有效地调节性能：可以通过剖析来确定哪些模块影响了系统的性能</li>
+<li>提高软件的可重用性</li>
+<li>降低了构建大型系统的风险：即使整个系统不可用，但是这些独立的模块却有可能是可用的</li>
+</ul>
+<h5 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h5><p>继承实现了 <strong>IS-A</strong> 关系，例如 Cat 和 Animal 就是一种 IS-A 关系，因此 Cat 可以继承自 Animal，从而获得 Animal 非 private 的属性和方法。</p>
+<p>继承应该遵循里氏替换原则，子类对象必须能够替换掉所有父类对象。</p>
+<p>Cat 可以当做 Animal 来使用，也就是说可以使用 Animal 引用 Cat 对象。父类引用指向子类对象称为 <strong>向上转型</strong> 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Animal</span> <span class="variable">animal</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();</span><br></pre></td></tr></table></figure>
 
+<h5 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h5><p>多态分为编译时多态和运行时多态：</p>
 <ul>
-<li><code>@Autowired</code> 的实现</li>
+<li>编译时多态主要指方法的重载</li>
+<li>运行时多态指程序中定义的对象引用所指向的具体类型在运行期间才确定</li>
 </ul>
-<blockquote>
-<p>注解驱动配置会向spring容器中注册<code>AutowiredAnnotationBeanPostProcessor</code>。<br> 当 Spring 容器启动时，<code>AutowiredAnnotationBeanPostProcessor</code> 将扫描 <code>Spring </code>容器中所有 Bean，当发现 Bean 中拥有 <code>@Autowired </code>注释时就找到和其匹配（默认按类型匹配）的 Bean，并注入到对应的地方中去。</p>
-</blockquote>
-</li>
-<li><p><code>@Resource</code> 默认按照名称进行装配(<code>JDK1.6</code>开始支持的注解)，名称可以通过<code>name</code>属性进行指定，也提供按照<code>byType</code>注入</p>
+<p>运行时多态有三个条件：</p>
 <ul>
-<li>如果没有指定<code>name</code>属性，当注解写在字段上时，默认取字段名，按照名称查找；</li>
-<li>当注解标注在属性的<code>setter</code>方法上，即默认取属性名作为<code>bean</code>名称寻找依赖对象；</li>
-<li>当找不到与名称匹配的bean时才按照类型进行装配，但需要注意的是，如果<code>name</code>属性一旦指定，就只会按照名称进行装配；</li>
+<li>继承</li>
+<li>覆盖（重写）</li>
+<li>向上转型</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource(name = &quot;userDto&quot;)</span></span><br><span class="line"><span class="keyword">private</span> UserDto userDto;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Resource(type = UserDto.class)</span></span><br><span class="line"><span class="keyword">private</span> UserDto userDto;</span><br></pre></td></tr></table></figure>
+<p>下面的代码中，乐器类（Instrument）有两个子类：Wind 和 Percussion，它们都覆盖了父类的 play() 方法，并且在 main() 方法中使用父类 Instrument 来引用 Wind 和 Percussion 对象。在 Instrument 引用调用 play() 方法时，会执行实际引用对象所在类的 play() 方法，而不是 Instrument 类的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Instrument</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">play</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Instument is playing...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li><code>@Resource</code> 装配顺序<ul>
-<li>如果同时指定了<code>name</code>和<code>type</code>，则从<code>spring</code>上下文中找到唯一匹配的<code>bean</code>进行装配，找不到则会抛出异常</li>
-<li>如果指定了<code>name</code>，则从上下文中查找名称<code>id</code>匹配的<code>bean</code>进行装配，找不到则抛出异常</li>
-<li>如果指定了<code>type</code>，则从上下文中找到类型匹配的唯一<code>bean</code>进行装配，找不到或找到多个，都会抛出异常</li>
-<li>如果既没有指定<code>name</code>，又没有指定<code>type</code>，则自动按照<code>byName</code>方式进行装配，如果没有匹配，则回退为一个原始类型进行匹配，如果匹配则自动装配</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><code>@Autowired</code> 和<code>@Resource</code> 作用域不同</p>
-<ul>
-<li><code>@Autowired</code>可以作用在<code>construct</code>，<code>field</code>，<code>setter</code>方法（可以有多个参数，并且参数上可以使用<code>@Qualifies</code>进行标注）</li>
-<li><code>@Resource</code>只可以使用在<code>field</code>，<code>setter</code>方法上（只能是单个单数的<code>setter</code>方法）</li>
-</ul>
-</li>
-</ol>
-<h5 id="Autowired-和-Resource-的正确使用"><a href="#Autowired-和-Resource-的正确使用" class="headerlink" title="@Autowired 和@Resource 的正确使用"></a><code>@Autowired</code> 和<code>@Resource</code> 的正确使用</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> UserService userService;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Wind</span> <span class="keyword">extends</span> <span class="title class_">Instrument</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">play</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Wind is playing...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>如上代码常有warning的提示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Percussion</span> <span class="keyword">extends</span> <span class="title class_">Instrument</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">play</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Percussion is playing...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Music</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;Instrument&gt; instruments = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        instruments.add(<span class="keyword">new</span> <span class="title class_">Wind</span>());</span><br><span class="line">        instruments.add(<span class="keyword">new</span> <span class="title class_">Percussion</span>());</span><br><span class="line">        <span class="keyword">for</span>(Instrument instrument : instruments) &#123;</span><br><span class="line">            instrument.play();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<p>Field injection is not recommended Inspection info: Spring Team recommends: “Always use constructor based dependency injection in your beans. Always use assertions for mandatory dependencies”.</p>
+<p>Wind is playing…</p>
+<p>Percussion is playing…</p>
 </blockquote>
-<ol>
-<li><p>注入方式</p>
+<h3 id="二、类图"><a href="#二、类图" class="headerlink" title="二、类图"></a>二、类图</h3><h5 id="泛化关系-Generalization"><a href="#泛化关系-Generalization" class="headerlink" title="泛化关系(Generalization)"></a>泛化关系(Generalization)</h5><p>用来描述继承关系，在Java中使用<code>extends</code>关键字</p>
+<h5 id="实现关系-Realization"><a href="#实现关系-Realization" class="headerlink" title="实现关系(Realization)"></a>实现关系(Realization)</h5><p>用来实现一个接口，在Java中使用<code>implements</code>关键字</p>
+<h5 id="聚合关系-Aggregation"><a href="#聚合关系-Aggregation" class="headerlink" title="聚合关系(Aggregation)"></a>聚合关系(Aggregation)</h5><p>表示整体由部分组成，但是整体和部分不是强依赖的，整体不存在了部分还是会存在。</p>
+<h5 id="组合关系-Composition"><a href="#组合关系-Composition" class="headerlink" title="组合关系(Composition)"></a>组合关系(Composition)</h5><p>和聚合不同，组合中整体和部分是强依赖的，整体不存在了部分也不存在了。比如公司和部门，公司没了部门就不存在了。但是公司和员工就属于聚合关系了，因为公司没了员工还在。</p>
+<h5 id="关联关系-Association"><a href="#关联关系-Association" class="headerlink" title="关联关系(Association)"></a>关联关系(Association)</h5><p>表示不同类对象之间有关联，这是一种静态关系，与运行过程的状态无关，在最开始就可以确定。因此也可以用 1 对 1、多对 1、多对多这种关联关系来表示。比如学生和学校就是一种关联关系，一个学校可以有很多学生，但是一个学生只属于一个学校，因此这是一种多对一的关系，在运行开始之前就可以确定。</p>
+<h5 id="依赖关系-Dependency"><a href="#依赖关系-Dependency" class="headerlink" title="依赖关系(Dependency)"></a>依赖关系(Dependency)</h5><p>和关联关系不同的是，依赖关系是在运行过程中起作用的。A 类和 B 类是依赖关系主要有三种形式：</p>
 <ul>
-<li><p>基于构造函数的依赖注入</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> implents UserService&#123;</span><br><span class="line">    <span class="keyword">private</span> UserDao userDao;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserServiceImpl</span><span class="params">(UserDao userDao)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.userDao = userDao;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>基于Setter的依赖注入</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> implents UserService&#123;</span><br><span class="line">     <span class="keyword">private</span> UserDao userDao;</span><br><span class="line">     </span><br><span class="line">     <span class="meta">@Autowired</span></span><br><span class="line">     <span class="keyword">public</span> <span class="title function_">setUserDao</span><span class="params">(UserDao userDao)</span>&#123;</span><br><span class="line">         <span class="built_in">this</span>.userDao = userDao;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>基于字段的依赖注入</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> implents UserService&#123;</span><br><span class="line">     <span class="meta">@Autowired</span></span><br><span class="line">     <span class="keyword">private</span> UserDao userDao;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></li>
+<li>A 类是 B 类方法的局部变量；</li>
+<li>A 类是 B 类方法的参数；</li>
+<li>A 类向 B 类发送消息，从而影响 B 类发生变化。</li>
 </ul>
-</li>
-<li><p>基于字段的依赖注入缺点</p>
+<h3 id="三、设计原则"><a href="#三、设计原则" class="headerlink" title="三、设计原则"></a>三、设计原则</h3><h5 id="单一责任原则"><a href="#单一责任原则" class="headerlink" title="单一责任原则"></a>单一责任原则</h5><blockquote>
+<p>修改一个类的原因应该只有一个。</p>
+</blockquote>
+<p>换句话说就是让一个类只负责一件事，当这个类需要做过多事情的时候，就需要分解这个类。</p>
+<p>如果一个类承担的职责过多，就等于把这些职责耦合在了一起，一个职责的变化可能会削弱这个类完成其它职责的能力。</p>
+<h5 id="开放封闭原则"><a href="#开放封闭原则" class="headerlink" title="开放封闭原则"></a>开放封闭原则</h5><blockquote>
+<p>类应该对扩展开放，对修改关闭。</p>
+</blockquote>
+<p>扩展就是添加新功能的意思，因此该原则要求在添加新功能时不需要修改代码。</p>
+<p>符合开闭原则最典型的设计模式是装饰者模式，它可以动态地将责任附加到对象上，而不用去修改类的代码。</p>
+<h5 id="接口分离原则"><a href="#接口分离原则" class="headerlink" title="接口分离原则"></a>接口分离原则</h5><blockquote>
+<p>子类对象必须能够替换掉所有父类对象。</p>
+</blockquote>
+<p>继承是一种 IS-A 关系，子类需要能够当成父类来使用，并且需要比父类更特殊。</p>
+<p>如果不满足这个原则，那么各个子类的行为上就会有很大差异，增加继承体系的复杂度</p>
+<h5 id="里氏替换原则"><a href="#里氏替换原则" class="headerlink" title="里氏替换原则"></a>里氏替换原则</h5><blockquote>
+<p>不应该强迫客户依赖于它们不用的方法。</p>
+</blockquote>
+<p>因此使用多个专门的接口比使用单一的总接口要好。</p>
+<h5 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h5><blockquote>
+<p>高层模块不应该依赖于低层模块，二者都应该依赖于抽象；<br>抽象不应该依赖于细节，细节应该依赖于抽象。</p>
+</blockquote>
+<p>高层模块包含一个应用程序中重要的策略选择和业务模块，如果高层模块依赖于低层模块，那么低层模块的改动就会直接影响到高层模块，从而迫使高层模块也需要改动。</p>
+<p>依赖于抽象意味着：</p>
 <ul>
-<li><p>对于有<code>final</code> 修饰的变量不好使</p>
-<blockquote>
-<p><code>Spring</code>的<code>IOC</code>对待属性的注入使用的是set形式，但是<code>final</code>类型的变量在调用class的构造函数的这个过程当中就得初始化完成，这个是基于字段的依赖注入做不到的地方．只能使用<strong>基于构造函数的依赖注入</strong>的方式</p>
-</blockquote>
-</li>
-<li><p>掩盖单一职责的设计思想</p>
-<blockquote>
-<p>在<code>OOP</code>的设计当中有一个单一职责思想，如果采用的是基于构造函数的依赖注入的方式来使用<code>Spring</code>的<code>IOC</code>的时候，当你注入的太多的时候，这个构造方法的参数就会很庞大</p>
-</blockquote>
-</li>
-<li><p>与<code>Spring</code>的<code>IOC</code>机制紧密耦合</p>
-<blockquote>
-<p>当你使用<strong>基于字段的依赖注入</strong>方式的时候，确实可以省略构造方法和<code>setter</code>这些个模板类型的方法，但是，你把控制权全给<code>Spring</code>的<code>IOC</code>了，别的类想重新设置下你的某个注入属性，没法处理(当然反射可以做到)。</p>
-<p>本身<code>Spring</code>的目的就是解藕和依赖反转，结果通过再次与类注入器，失去了通过自动装配类字段而实现的对类的解耦，从而使类在<code>Spring</code>容器之外无效。</p>
-</blockquote>
-</li>
-<li><p>隐藏依赖性</p>
-<blockquote>
-<p>当你使用<code>Spring</code>的<code>IOC</code>的时候，被注入的类应当使用一些<code>public</code>类型(构造方法，和setter类型方法)的方法来向外界表达:我需要什么依赖.但是基于字段的依赖注入的方式，基本都是<code>private</code>形式的，<code>private</code>把属性都给封印到<code>class</code>当中了。</p>
-</blockquote>
-</li>
+<li>任何变量都不应该持有一个指向具体类的指针或者引用；</li>
+<li>任何类都不应该从具体类派生；</li>
+<li>任何方法都不应该覆写它的任何基类中的已经实现的方法。</li>
 </ul>
-</li>
-</ol>
-<h5 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h5><ol>
-<li>应避免使用基于字段的依赖注入，推荐使用基于构造函数和基于<code>setter</code>的依赖注入</li>
-<li>对于必需的依赖项，建议使用基于构造函数的注入，以使它们成为不可变的，并防止它们为<code>null</code></li>
-<li>对于可选的依赖项，建议使用基于<code>setter</code>的注入</li>
-</ol>
  
       <!-- reward -->
       
@@ -260,12 +250,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/01/%E8%B0%88-Autowired%E5%92%8C-Resource%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%8C%BA%E5%88%AB/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/06/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li></ul>
 
     </footer>
   </div>
@@ -273,19 +263,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/05/05/MyBatis%E6%98%93%E9%94%99%E9%A2%98%E6%80%BB%E7%BB%93/" class="article-nav-link">
+      <a href="/2022/05/07/Java%E5%AE%B9%E5%99%A8/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            MyBatis易错题总结
+            Java容器
           
         </div>
       </a>
     
     
-      <a href="/2022/05/01/spring-boot%E5%A6%82%E4%BD%95%E5%8E%BB%E8%8E%B7%E5%8F%96%E5%89%8D%E7%AB%AF%E4%BC%A0%E9%80%92%E7%9A%84%E5%8F%82%E6%95%B0/" class="article-nav-link">
+      <a href="/2022/05/05/MyBatis%E6%98%93%E9%94%99%E9%A2%98%E6%80%BB%E7%BB%93/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">spring-boot如何去获取前端传递的参数</div>
+        <div class="article-nav-title">MyBatis易错题总结</div>
       </a>
     
   </nav>
