@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>SpringSecurity基本原理 |  平凡之路</title>
+      <title>Redis基础 |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-SpringSecurity基本原理"
+  id="post-Redis基础"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  SpringSecurity基本原理
+  Redis基础
 </h1>
  
 
@@ -72,11 +72,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/05/09/SpringSecurity%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="article-date">
-  <time datetime="2022-05-09T15:29:49.000Z" itemprop="datePublished">2022-05-09</time>
+      <a href="/2022/05/13/Redis%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2022-05-13T01:07:29.000Z" itemprop="datePublished">2022-05-13</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/SpringBoot/">SpringBoot</a>
+    <a class="article-category-link" href="/categories/Redis/">Redis</a>
   </div>
   
 <div class="word_count">
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">216</span>
+            <span class="post-count">1k</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">3 分钟</span>
         </span>
     </span>
 </div>
@@ -108,33 +108,46 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h5 id="一、概要"><a href="#一、概要" class="headerlink" title="一、概要"></a>一、概要</h5><h5 id=""><a href="#" class="headerlink" title=""></a></h5><ol>
-<li><p><em>SpringSecurity本质是一个过滤器链</em></p>
-</li>
-<li><p>核心功能：用户认证（Authentication）和用户授权 （Authorization）两个部分</p>
-</li>
-<li><p>SpringSecurity 特点 </p>
-<ul>
-<li>和 Spring 无缝整合。</li>
-<li>全面的权限控制。</li>
-<li>专门为 Web 开发而设计。<ul>
-<li>旧版本不能脱离 Web 环境使用。 </li>
-<li>新版本对整个框架进行了分层抽取，分成了核心模块和 Web 模块。单独 引入核心模块就可以脱离 Web 环境。</li>
-</ul>
-</li>
-<li>重量级</li>
-</ul>
-<blockquote>
-<p>Shiro的特点：(Apache旗下的轻量级权限控制框架)</p>
-<ol>
-<li>轻量级。Shiro主张的理念是把复杂的事情变简单，针对对性能有更高要求的互联网应用有更好表现</li>
-<li>通用性<ul>
-<li>好处：不局限于Web环境，可以脱离Web环境使用</li>
-<li>缺陷：在Web环境下一些特定的需求需要手动编写代码定制</li>
-</ul>
-</li>
+  <h5 id="NoSQL特点"><a href="#NoSQL特点" class="headerlink" title="NoSQL特点"></a>NoSQL特点</h5><ol>
+<li>方便扩展（数据之间没有关系，很好扩展）</li>
+<li>大数据量高性能（Redis一秒写8万次，读取11万，NoSQL的缓存记录级，是一种细粒度的缓存，性能比较高）</li>
+<li>数据类型的多样性（不需要事先设计数据库）</li>
 </ol>
-</blockquote>
+<h5 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h5><p>Redis 是完全开源的，遵守 BSD 协议，是一个高性能的 key-value 数据库。</p>
+<p>Redis 与其他 key - value 缓存产品有以下三个特点：</p>
+<ol>
+<li>Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。</li>
+<li>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。</li>
+<li>Redis支持数据的备份，即master-slave模式的数据备份。</li>
+</ol>
+<h5 id="Redis-优势"><a href="#Redis-优势" class="headerlink" title="Redis 优势"></a>Redis 优势</h5><ol>
+<li>性能极高 – Redis能读的速度是110000次&#x2F;s,写的速度是81000次&#x2F;s 。</li>
+<li>丰富的数据类型 – Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。</li>
+<li>原子 – Redis的所有操作都是原子性的，意思就是要么成功执行要么失败完全不执行。单个操作是原子性的。多个操作也支持事务，即原子性，通过MULTI和EXEC指令包起来。</li>
+<li>丰富的特性 – Redis还支持 publish&#x2F;subscribe, 通知, key 过期等等特性。</li>
+</ol>
+<h5 id="Redis与其他key-value存储有什么不同？"><a href="#Redis与其他key-value存储有什么不同？" class="headerlink" title="Redis与其他key-value存储有什么不同？"></a>Redis与其他key-value存储有什么不同？</h5><ol>
+<li>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。</li>
+<li>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</li>
+</ol>
+<h5 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h5><ol>
+<li><p>概述</p>
+<p>持久化可以理解为存储，就是将数据存储到一个不会丢失的地方，如果把数据放在内存中，电脑关闭或重启数据就会丢失，所以放在内存中的数据不是持久化的，而放在磁盘就算是一种持久化。</p>
+<p>Redis 的数据存储在内存中，内存是瞬时的，如果 linux 宕机或重启，又或者 Redis 崩溃或重启，所有的内存数据都会丢失，为解决这个问题，Redis 提供两种机制对数据进行持久化存储，便于发生故障后能迅速恢复数据。</p>
+</li>
+<li><p>持久化方式</p>
+<ul>
+<li><p>RDB方式</p>
+<p>Redis Database（RDB），就是在指定的时间间隔内将内存中的数据集快照写入磁盘，数据恢复时将快照文件直接再读到内存。</p>
+<p>RDB 保存了在某个时间点的数据集（全部数据）。存储在一个二进制文件中，只有一个文件。默认是 dump.rdb。RDB 技术非常适合做备份，可以保存最近一个小时，一天，一个月的全部数据。保存数据是在单独的进程中写文件，不影响 Redis 的正常使用。RDB 恢复数据时比其他 AOF 速度快。</p>
+<p>RDB 方式的数据持久化，仅需在 redis.conf 文件中配置即可，默认配置是启用的。</p>
+</li>
+<li><p>AOF方式</p>
+<p>Append-only File（AOF），Redis 每次接收到一条改变数据的命令时，它将把该命令写到一个 AOF 文件中（只记录写操作，读操作不记录），当 Redis 重启时，它通过执行 AOF 文件中所有的命令来恢复数据。</p>
+</li>
+</ul>
+</li>
+<li><p>redis 默认优先加载 aof 文件（aof 数据最完整）</p>
 </li>
 </ol>
  
@@ -201,12 +214,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/09/SpringSecurity%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/13/Redis%E5%9F%BA%E7%A1%80/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringSecurity/" rel="tag">SpringSecurity</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
 
     </footer>
   </div>
@@ -214,19 +227,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/05/13/Redis%E5%9F%BA%E7%A1%80/" class="article-nav-link">
+      <a href="/2022/05/15/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            Redis基础
+            Redis数据类型
           
         </div>
       </a>
     
     
-      <a href="/2022/05/07/Docker/" class="article-nav-link">
+      <a href="/2022/05/09/SpringSecurity%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Docker</div>
+        <div class="article-nav-title">SpringSecurity基本原理</div>
       </a>
     
   </nav>

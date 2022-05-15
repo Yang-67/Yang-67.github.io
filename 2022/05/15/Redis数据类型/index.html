@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>SpringSecurity基本原理 |  平凡之路</title>
+      <title>Redis数据类型 |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-SpringSecurity基本原理"
+  id="post-Redis数据类型"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  SpringSecurity基本原理
+  Redis数据类型
 </h1>
  
 
@@ -72,11 +72,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/05/09/SpringSecurity%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="article-date">
-  <time datetime="2022-05-09T15:29:49.000Z" itemprop="datePublished">2022-05-09</time>
+      <a href="/2022/05/15/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="article-date">
+  <time datetime="2022-05-15T12:11:37.000Z" itemprop="datePublished">2022-05-15</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/SpringBoot/">SpringBoot</a>
+    <a class="article-category-link" href="/categories/Redis/">Redis</a>
   </div>
   
 <div class="word_count">
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">216</span>
+            <span class="post-count">1.1k</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">4 分钟</span>
         </span>
     </span>
 </div>
@@ -108,34 +108,78 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h5 id="一、概要"><a href="#一、概要" class="headerlink" title="一、概要"></a>一、概要</h5><h5 id=""><a href="#" class="headerlink" title=""></a></h5><ol>
-<li><p><em>SpringSecurity本质是一个过滤器链</em></p>
-</li>
-<li><p>核心功能：用户认证（Authentication）和用户授权 （Authorization）两个部分</p>
-</li>
-<li><p>SpringSecurity 特点 </p>
-<ul>
-<li>和 Spring 无缝整合。</li>
-<li>全面的权限控制。</li>
-<li>专门为 Web 开发而设计。<ul>
-<li>旧版本不能脱离 Web 环境使用。 </li>
-<li>新版本对整个框架进行了分层抽取，分成了核心模块和 Web 模块。单独 引入核心模块就可以脱离 Web 环境。</li>
-</ul>
-</li>
-<li>重量级</li>
-</ul>
-<blockquote>
-<p>Shiro的特点：(Apache旗下的轻量级权限控制框架)</p>
-<ol>
-<li>轻量级。Shiro主张的理念是把复杂的事情变简单，针对对性能有更高要求的互联网应用有更好表现</li>
-<li>通用性<ul>
-<li>好处：不局限于Web环境，可以脱离Web环境使用</li>
-<li>缺陷：在Web环境下一些特定的需求需要手动编写代码定制</li>
-</ul>
-</li>
+  <h5 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h5><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>可以存储的值</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>STRING</td>
+<td>字符串、整数或者浮点数</td>
+<td>对整个字符串或者字符串的其中一部分执行操作<br />对整数和浮点数执行自增或者自减操作</td>
+</tr>
+<tr>
+<td>LIST</td>
+<td>列表</td>
+<td>从两端压入或者弹出元素，<br />对单个或者多个元素进行修剪<br />只保留一个范围内的元素</td>
+</tr>
+<tr>
+<td>SET</td>
+<td>无序集合</td>
+<td>添加、获取、移除单个元素，<br />检查一个元素是否存在于集合中<br />计算交集、并集、差集，从集合里面随机获取元素</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>包含键值对的无序散列表</td>
+<td>添加、获取、移除单个键值对<br />获取所有键值对，检查某个键是否存在</td>
+</tr>
+<tr>
+<td>ZSET</td>
+<td>有序集合</td>
+<td>添加、获取、删除元素<br />根据分值范围或者成员来获取元素<br /> 计算一个键的排名</td>
+</tr>
+</tbody></table>
+<h5 id="STRING"><a href="#STRING" class="headerlink" title="STRING"></a>STRING</h5><ol>
+<li>string 是 redis 最基本的类型，你可以理解成与 Memcached 一模一样的类型，一个 key 对应一个 value</li>
+<li>string 类型是二进制安全的。意思是 redis 的 string 可以包含任何数据。比如jpg图片或者序列化的对象</li>
+<li>string 类型是 Redis 最基本的数据类型，string 类型的值最大能存储 512MB。</li>
 </ol>
-</blockquote>
-</li>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> key value  #设置指定key的值</span><br><span class="line">get key  #获取指定key的值</span><br><span class="line">getrange key start end  #返回key中字符串值的子字符</span><br><span class="line">getset key value #将给定key的值设为value，并返回key的旧值</span><br><span class="line">getbit key offset  #对key所存储的字符串值，获取指定偏移量上的位</span><br><span class="line">mget key1[key2...]  #获取所有（一个或多个）给定key的值</span><br><span class="line">setex key seconds value  #将值value关联到key，并将key的过期时间设为seconds（以秒为单位）</span><br><span class="line"><span class="built_in">strlen</span> key  #返回key所存储的字符串值的长度</span><br><span class="line">incr key  #将key中存储的数字值增一</span><br><span class="line">decr key  #将key中存储的数字值减一</span><br><span class="line">append key value  #如果key已经存在并且是一个字符串，append命令将指定的value追加到key原来值的末尾</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="LIST"><a href="#LIST" class="headerlink" title="LIST"></a>LIST</h5><ol>
+<li>Redis 列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）。</li>
+<li>列表最多可存储 232 - 1 元素 (4294967295, 每个列表可存储40多亿)。</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">lindex key index  #通过索引获取列表中的元素</span><br><span class="line">llen key  #获取列表长度</span><br><span class="line">linsert key before|after pivot value  #在列表元素前或后插入元素</span><br><span class="line">lpush key value1[value2...]  #将一个或多个值插入到列表头部</span><br><span class="line">lpop key  #移出并获取列表的第一个元素</span><br><span class="line">lset key index value  #通过索引设置元素的值</span><br><span class="line">ltrim key start stop  #对一个列表进行修剪</span><br><span class="line">rpop key  #移除列表的最后一个元素，返回值为移除的元素</span><br><span class="line">rpush key value1[value2...]  #在列表末尾添加一个或多个值</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="SET"><a href="#SET" class="headerlink" title="SET"></a>SET</h5><ol>
+<li>Redis 的 Set 是 string 类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据。</li>
+<li>集合对象的编码可以是 intset 或者 hashtable。</li>
+<li>集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sadd key member1[member2...]  #向集合添加一个或多个成员</span><br><span class="line">scard key  #获取集合的成员数</span><br><span class="line">sdiff key1[key2]  #返回第一个集合与其他集合之间的差异</span><br><span class="line">sinter key1[key2]  #返回给定所有集合的交集</span><br><span class="line">sismember key member  #判断member元素是否是集合key的成员</span><br><span class="line">smembers key  #返回集合中的所有成员</span><br><span class="line">sunion key1[key2]  #返回所有给定集合的并集</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="HASH"><a href="#HASH" class="headerlink" title="HASH"></a>HASH</h5><ol>
+<li>Redis hash 是一个键值(key&#x3D;&gt;value)对集合。</li>
+<li>Redis hash 是一个 string 类型的 field 和 value 的映射表，hash 特别适合用于存储对象。</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hdel key field1[field2]  #删除一个或多个哈希表字段</span><br><span class="line">hexists key field  #查看哈希表key中，指定的字段是否存在</span><br><span class="line">hset key field value  #将哈希表key中的字段field的值设为value</span><br><span class="line">hget key field  #获取存储在哈希表中指定字段的值</span><br><span class="line">hgetall key  #获取在哈希表中指定key的所有字段和值</span><br><span class="line">hkeys key  #获取所有哈希表中的字段</span><br><span class="line">hvals key  #获取哈希表中所有值</span><br><span class="line">klen key  #获取哈希表中字段的数量</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="ZSET"><a href="#ZSET" class="headerlink" title="ZSET"></a>ZSET</h5><ol>
+<li>Redis zset 和 set 一样也是string类型元素的集合,且不允许重复的成员。</li>
+<li>不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。</li>
+<li>zset的成员是唯一的,但分数(score)却可以重复。</li>
 </ol>
  
       <!-- reward -->
@@ -201,12 +245,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/09/SpringSecurity%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/15/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringSecurity/" rel="tag">SpringSecurity</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" rel="tag">Redis数据类型</a></li></ul>
 
     </footer>
   </div>
@@ -214,19 +258,10 @@
    
   <nav class="article-nav">
     
+    
       <a href="/2022/05/13/Redis%E5%9F%BA%E7%A1%80/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            Redis基础
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2022/05/07/Docker/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Docker</div>
+        <div class="article-nav-title">Redis基础</div>
       </a>
     
   </nav>
