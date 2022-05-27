@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>Redis事务 |  平凡之路</title>
+      <title>Jedis |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-Redis事务"
+  id="post-Jedis"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  Redis事务
+  Jedis
 </h1>
  
 
@@ -72,8 +72,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/05/17/Redis%E4%BA%8B%E5%8A%A1/" class="article-date">
-  <time datetime="2022-05-17T07:30:51.000Z" itemprop="datePublished">2022-05-17</time>
+      <a href="/2022/05/18/Jedis/" class="article-date">
+  <time datetime="2022-05-18T12:33:57.000Z" itemprop="datePublished">2022-05-18</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/Redis/">Redis</a>
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">620</span>
+            <span class="post-count">876</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">2 分钟</span>
+            <span class="post-count">4 分钟</span>
         </span>
     </span>
 </div>
@@ -108,47 +108,51 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h5 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h5><p><em><strong>Redis单条命令保存原子性，但是事务不保证原子性</strong></em></p>
-<ol>
-<li>一个事务中的所有命令都会被序列化，在事务执行过程中，会按照顺序执行</li>
-<li>Redis 事务可以一次执行多个命令， 并且带有以下三个重要的保证<ul>
-<li>批量操作在发送 EXEC 命令前被放入队列缓存。</li>
-<li>收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令依然被执行。</li>
-<li>在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中。</li>
-</ul>
-</li>
-<li>一个事务从开始到执行会经历以下三个阶段<ul>
-<li>开始事务</li>
-<li>命令入队</li>
-<li>执行事务</li>
-</ul>
-</li>
+  <h5 id="Jedis"><a href="#Jedis" class="headerlink" title="Jedis"></a>Jedis</h5><ol>
+<li>jedis就是基于java语言的redis客户端，集成了redis的命令操作，提供了连接池管理。</li>
+<li>redis-cli是redis官方提供的客户端，可以看作一个shell程序，它可以发送命令对redis进行操作。</li>
+<li>对于jedis同理是使用java语言操作redis，双方都遵循redis提供的协议，按照协议开发对应的客户端。</li>
 </ol>
-<h5 id="事务执行过程"><a href="#事务执行过程" class="headerlink" title="事务执行过程"></a>事务执行过程</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi    # 开启事务</span><br><span class="line">OK</span><br><span class="line"># 命令入队</span><br><span class="line">127.0.0.1:6379&gt; set name yang</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k1 peng</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k2 hh</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec    # 执行事务</span><br><span class="line">1) OK</span><br><span class="line">2) OK</span><br><span class="line">3) &quot;yang&quot;</span><br><span class="line">4) OK</span><br></pre></td></tr></table></figure>
+<h5 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;redis.clients&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jedis&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.9.0&lt;/version&gt;</span><br><span class="line">    &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 
-<h5 id="终止事务"><a href="#终止事务" class="headerlink" title="终止事务"></a>终止事务</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi    # 开启事务</span><br><span class="line">OK</span><br><span class="line"># 命令入队</span><br><span class="line">127.0.0.1:6379&gt; set name yang</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k1 peng</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; DISCARD   # 取消事务</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<h5 id="连接方式对比"><a href="#连接方式对比" class="headerlink" title="连接方式对比"></a>连接方式对比</h5><table>
+<thead>
+<tr>
+<th></th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>直连</td>
+<td>1. 简单方便<br />2. 适用于少量长期连接的场景</td>
+<td>1. 存在每次新建&#x2F;关闭TCP开销<br />2. 资源无法控制，存在连接泄露的可能<br />3. Jedis对象线程不安全</td>
+</tr>
+<tr>
+<td>连接池</td>
+<td>1. Jedis预先生成，降低开销使用<br />2.连接池的形式保护和控制资源的使用</td>
+<td>1. 相对于直连，使用相对于麻烦，<br />尤其在资源的管理上需要很多参数来保证，<br />一旦规划不合理就会出现问题</td>
+</tr>
+</tbody></table>
+<h5 id="Jedis直连"><a href="#Jedis直连" class="headerlink" title="Jedis直连"></a>Jedis直连</h5><p><em>Jedis直连，本质是定义一个TCP连接，然后使用<code>socket</code>技术进行通信</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 1.生成一个jedis对象，这个对象负责和指定Redis节点进行通信</span><br><span class="line">Jedis jedis = new Jedis(&quot;127.0.0.1&quot;, 6379);</span><br><span class="line"># 带密码需要执行认证方法</span><br><span class="line"># jedis.auth(&quot;123456&quot;);</span><br><span class="line"># 2.jedis执行set操作</span><br><span class="line">jedis.set(&quot;hello&quot;, &quot;world&quot;);</span><br><span class="line"># 3.jedis执行get操作，value=&quot;world&quot;</span><br><span class="line">String value = jedis.get(&quot;hello&quot;);</span><br></pre></td></tr></table></figure>
 
-<h5 id="编译型异常-命令有错"><a href="#编译型异常-命令有错" class="headerlink" title="编译型异常(命令有错)"></a>编译型异常(命令有错)</h5><p><em>事务中所有的命令都不会被执行</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set k1 v1</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; getset k2  # 错误命令</span><br><span class="line">(error) ERR wrong number of arguments for &#x27;getset&#x27; command</span><br><span class="line">127.0.0.1:6379&gt; set k3 v3</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec  # 执行事务报错</span><br><span class="line">(error) EXECABORT Transaction discarded because of previous errors.</span><br><span class="line">127.0.0.1:6379&gt; get k1  #未执行</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
+<h5 id="Jdeis简单使用"><a href="#Jdeis简单使用" class="headerlink" title="Jdeis简单使用"></a>Jdeis简单使用</h5><h6 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> #  1.string</span><br><span class="line"># 输出结果: OK</span><br><span class="line">jedis.set(&quot;hello&quot;, &quot;world&quot;);</span><br><span class="line"># 输出结果: world</span><br><span class="line">jedis.get(&quot;hello&quot;);</span><br><span class="line"># 输出结果:1</span><br><span class="line">jedis.incr(&quot;counter&quot;);</span><br></pre></td></tr></table></figure>
 
-<h5 id="运行时异常-语法错误"><a href="#运行时异常-语法错误" class="headerlink" title="运行时异常(语法错误)"></a>运行时异常(语法错误)</h5><p><em>其他命令可以正常执行，错误命令抛出异常</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set k1 v1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; incr k1  # 语法错误，字符串不能自增</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; get k2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec</span><br><span class="line">1) (error) ERR value is not an integer or out of range</span><br><span class="line">2) OK</span><br><span class="line">3) &quot;v2&quot;</span><br></pre></td></tr></table></figure>
+<h6 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#  2.hash</span><br><span class="line">jedis.hset(&quot;myhash&quot;, &quot;f1&quot;, &quot;v1&quot;);</span><br><span class="line">jedis.hset(&quot;myhash&quot;, &quot;f2&quot;, &quot;v2&quot;);</span><br><span class="line"># 输出结果 : &#123;f1=v1, f2=v2&#125;</span><br><span class="line">jedis.hgetAll(&quot;myhash&quot;);</span><br></pre></td></tr></table></figure>
 
-<h5 id="watch命令"><a href="#watch命令" class="headerlink" title="watch命令"></a>watch命令</h5><p><em>用于监视一个或多个key，如果在事务执行之前这个或这些key被其他命令所改动，那么事务将被打断</em></p>
-<blockquote>
-<p>watch key [key …]</p>
-</blockquote>
-<p>返回值：OK</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis&gt; WATCH lock lock_times</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<h6 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#  3.list</span><br><span class="line">jedis.rpush(&quot;mylist&quot;, &quot;1&quot;);</span><br><span class="line">jedis.rpush(&quot;mylist&quot;, &quot;2&quot;);</span><br><span class="line">jedis.rpush(&quot;mylist&quot;, &quot;3&quot;);</span><br><span class="line"># 输出结果 : [1, 2, 3]</span><br><span class="line">jedis.lrange(&quot;mylist&quot;, 0, -1);</span><br></pre></td></tr></table></figure>
 
-<h5 id="unwatch命令"><a href="#unwatch命令" class="headerlink" title="unwatch命令"></a>unwatch命令</h5><p><em>用于取消watch命令对所有key的监视</em></p>
-<blockquote>
-<p>unwatach</p>
-</blockquote>
-<p>返回值：OK</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; WATCH lock lock_times</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">redis 127.0.0.1:6379&gt; UNWATCH</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<h6 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#  4.set</span><br><span class="line">jedis.sadd(&quot; myset&quot;, &quot;a&quot;);</span><br><span class="line">jedis.sadd(&quot; myset&quot;, &quot;b&quot;);</span><br><span class="line">jedis.sadd(&quot; myset&quot;, &quot;a&quot;);</span><br><span class="line"># 输出结果 : [b, a]</span><br><span class="line">jedis.smembers(&quot;myset&quot;);</span><br></pre></td></tr></table></figure>
 
-<p><em><strong>可使用watch实现乐观锁</strong></em></p>
+<h6 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#  5.zset</span><br><span class="line">jedis.zadd(&quot;myzset&quot;, 99, &quot;tom&quot;);</span><br><span class="line">jedis.zadd(&quot;myzset&quot;, 66, &quot;peter&quot;);</span><br><span class="line">jedis.zadd(&quot;myzset&quot;, 33, &quot;james&quot;);</span><br><span class="line"># 输出结果 : [[[&quot;james&quot;],33.0], [[&quot;peter&quot;],66.0], [[&quot;tom&quot;],99.0]]</span><br><span class="line">jedis.zrangeWithScores(&quot;myzset&quot;, 0, -1);</span><br></pre></td></tr></table></figure>
+
+<h5 id="Jedis连接池"><a href="#Jedis连接池" class="headerlink" title="Jedis连接池"></a>Jedis连接池</h5><ol>
+<li>Jedis直连是每次操作创建一个jedis对象，执行完毕后关闭连接，对应的就是一次TCP连接。</li>
+<li>Jedis连接池是预先生成一批Jedis连接对象放入连接池中，当需要对redis进行操作时从连接池中接用jedis对象，操作完后归还，这样jedis对象可以重复使用，避免了频繁创建socket连接，节省了连接的开销。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.commons.pool2.impl.GenericObjectPoolConfig;</span><br><span class="line">import redis.clients.jedis.Jedis;</span><br><span class="line">import redis.clients.jedis.JedisPool;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line">    </span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //连接池配置对象,包含了很多默认配置</span><br><span class="line">        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();</span><br><span class="line">        //初始化Jedis连接池，通常来讲JedisPool是单例的</span><br><span class="line">        JedisPool jedisPool = new JedisPool(poolConfig, &quot;127.0.0.1&quot;, 6379);</span><br><span class="line">        Jedis jedis = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            //1.从连接池获取jedis对象</span><br><span class="line">            jedis = jedisPool.getResource();</span><br><span class="line">            //2.执行操作</span><br><span class="line">            jedis.set(&quot;hello&quot;, &quot;jedis&quot;);</span><br><span class="line">            System.out.println(jedis.get(&quot;hello&quot;));</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; finally&#123;</span><br><span class="line">            //如果使用JedisPool，那么close操作不是关闭连接，代表归还连接池</span><br><span class="line">            if(jedis != null)&#123;</span><br><span class="line">                jedis.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;   </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
  
       <!-- reward -->
       
@@ -213,12 +217,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/17/Redis%E4%BA%8B%E5%8A%A1/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/18/Jedis/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis%E4%BA%8B%E5%8A%A1/" rel="tag">Redis事务</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jedis/" rel="tag">Jedis</a></li></ul>
 
     </footer>
   </div>
@@ -226,19 +230,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/05/18/Jedis/" class="article-nav-link">
+      <a href="/2022/05/20/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            Jedis
+            Redis发布订阅
           
         </div>
       </a>
     
     
-      <a href="/2022/05/17/Redis%E7%9A%84%E4%B8%89%E7%A7%8D%E7%89%B9%E6%AE%8A%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B-%E4%B8%89/" class="article-nav-link">
+      <a href="/2022/05/17/Redis%E4%BA%8B%E5%8A%A1/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Redis的三种特殊数据类型(三)</div>
+        <div class="article-nav-title">Redis事务</div>
       </a>
     
   </nav>

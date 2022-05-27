@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>Redis事务 |  平凡之路</title>
+      <title>Redis发布订阅 |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-Redis事务"
+  id="post-Redis发布订阅"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  Redis事务
+  Redis发布订阅
 </h1>
  
 
@@ -72,8 +72,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/05/17/Redis%E4%BA%8B%E5%8A%A1/" class="article-date">
-  <time datetime="2022-05-17T07:30:51.000Z" itemprop="datePublished">2022-05-17</time>
+      <a href="/2022/05/20/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" class="article-date">
+  <time datetime="2022-05-20T02:02:08.000Z" itemprop="datePublished">2022-05-20</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/Redis/">Redis</a>
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">620</span>
+            <span class="post-count">574</span>
         </span>
     </span>
 
@@ -108,47 +108,61 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h5 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h5><p><em><strong>Redis单条命令保存原子性，但是事务不保证原子性</strong></em></p>
-<ol>
-<li>一个事务中的所有命令都会被序列化，在事务执行过程中，会按照顺序执行</li>
-<li>Redis 事务可以一次执行多个命令， 并且带有以下三个重要的保证<ul>
-<li>批量操作在发送 EXEC 命令前被放入队列缓存。</li>
-<li>收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令依然被执行。</li>
-<li>在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中。</li>
-</ul>
-</li>
-<li>一个事务从开始到执行会经历以下三个阶段<ul>
-<li>开始事务</li>
-<li>命令入队</li>
-<li>执行事务</li>
-</ul>
-</li>
+  <h5 id="Redis发布订阅"><a href="#Redis发布订阅" class="headerlink" title="Redis发布订阅"></a>Redis发布订阅</h5><ol>
+<li>Redis 发布订阅 (pub&#x2F;sub) 是一种消息通信模式：发送者 (pub) 发送消息，订阅者 (sub) 接收消息。</li>
+<li>Redis 客户端可以订阅任意数量的频道。</li>
 </ol>
-<h5 id="事务执行过程"><a href="#事务执行过程" class="headerlink" title="事务执行过程"></a>事务执行过程</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi    # 开启事务</span><br><span class="line">OK</span><br><span class="line"># 命令入队</span><br><span class="line">127.0.0.1:6379&gt; set name yang</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k1 peng</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k2 hh</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec    # 执行事务</span><br><span class="line">1) OK</span><br><span class="line">2) OK</span><br><span class="line">3) &quot;yang&quot;</span><br><span class="line">4) OK</span><br></pre></td></tr></table></figure>
-
-<h5 id="终止事务"><a href="#终止事务" class="headerlink" title="终止事务"></a>终止事务</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi    # 开启事务</span><br><span class="line">OK</span><br><span class="line"># 命令入队</span><br><span class="line">127.0.0.1:6379&gt; set name yang</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k1 peng</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; DISCARD   # 取消事务</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
-
-<h5 id="编译型异常-命令有错"><a href="#编译型异常-命令有错" class="headerlink" title="编译型异常(命令有错)"></a>编译型异常(命令有错)</h5><p><em>事务中所有的命令都不会被执行</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set k1 v1</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; getset k2  # 错误命令</span><br><span class="line">(error) ERR wrong number of arguments for &#x27;getset&#x27; command</span><br><span class="line">127.0.0.1:6379&gt; set k3 v3</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec  # 执行事务报错</span><br><span class="line">(error) EXECABORT Transaction discarded because of previous errors.</span><br><span class="line">127.0.0.1:6379&gt; get k1  #未执行</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
-
-<h5 id="运行时异常-语法错误"><a href="#运行时异常-语法错误" class="headerlink" title="运行时异常(语法错误)"></a>运行时异常(语法错误)</h5><p><em>其他命令可以正常执行，错误命令抛出异常</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set k1 v1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; incr k1  # 语法错误，字符串不能自增</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; get k2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec</span><br><span class="line">1) (error) ERR value is not an integer or out of range</span><br><span class="line">2) OK</span><br><span class="line">3) &quot;v2&quot;</span><br></pre></td></tr></table></figure>
-
-<h5 id="watch命令"><a href="#watch命令" class="headerlink" title="watch命令"></a>watch命令</h5><p><em>用于监视一个或多个key，如果在事务执行之前这个或这些key被其他命令所改动，那么事务将被打断</em></p>
+<h5 id="发布订阅命令"><a href="#发布订阅命令" class="headerlink" title="发布订阅命令"></a>发布订阅命令</h5><h6 id="subscribe"><a href="#subscribe" class="headerlink" title="subscribe"></a>subscribe</h6><p><em>用于订阅给定的一个或多个频道的信息</em></p>
 <blockquote>
-<p>watch key [key …]</p>
+<p>redis 127.0.0.1:6379&gt; SUBSCRIBE channel [channel …]</p>
 </blockquote>
-<p>返回值：OK</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis&gt; WATCH lock lock_times</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<p>返回值：接收到的信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; subscribe yang</span><br><span class="line">Reading messages... (press Ctrl-C to quit)</span><br><span class="line">1) &quot;subscribe&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) (integer) 1</span><br><span class="line">1) &quot;message&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) &quot;hello&quot;</span><br></pre></td></tr></table></figure>
 
-<h5 id="unwatch命令"><a href="#unwatch命令" class="headerlink" title="unwatch命令"></a>unwatch命令</h5><p><em>用于取消watch命令对所有key的监视</em></p>
+<h6 id="publish"><a href="#publish" class="headerlink" title="publish"></a>publish</h6><p><em>用于将信息发送到指定的频道</em></p>
 <blockquote>
-<p>unwatach</p>
+<p>redis 127.0.0.1:6379&gt; PUBLISH channel message</p>
 </blockquote>
-<p>返回值：OK</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; WATCH lock lock_times</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">redis 127.0.0.1:6379&gt; UNWATCH</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<p>返回值：接收到信息的订阅者数量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; publish yang hello  # 发布信息</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
 
-<p><em><strong>可使用watch实现乐观锁</strong></em></p>
+<h6 id="unsubcribe"><a href="#unsubcribe" class="headerlink" title="unsubcribe"></a>unsubcribe</h6><p><em>用于订阅给定的一个或多个频道的信息</em></p>
+<blockquote>
+<p>redis 127.0.0.1:6379&gt; UNSUBSCRIBE channel [channel …]</p>
+</blockquote>
+<p>返回值：在不同的客户端有不同的表现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; unsubscribe yang</span><br><span class="line">1) &quot;unsubscribe&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) (integer) 0</span><br></pre></td></tr></table></figure>
+
+<h6 id="pubsub"><a href="#pubsub" class="headerlink" title="pubsub"></a>pubsub</h6><p><em>用于查看订阅与发布系统状态，它由数个不同规格的子命令组成</em></p>
+<blockquote>
+<p>redis 127.0.0.1:6379&gt; PUBSUB <subcommand> [argument [argument …]]</p>
+</blockquote>
+<p>返回值：由活跃频道组成的列表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; PUBSUB CHANNELS</span><br><span class="line">(empty list or set)</span><br></pre></td></tr></table></figure>
+
+<h6 id="psubscribe"><a href="#psubscribe" class="headerlink" title="psubscribe"></a>psubscribe</h6><p><em>订阅一个或多个符合给定模式的频道</em></p>
+<blockquote>
+<p>每个模式以 * 作为匹配符，比如 it* 匹配所有以 it 开头的频道( it.news 、 it.blog 、 it.tweets 等等)。 news.* 匹配所有以 news. 开头的频道( news.it 、 news.global.today 等等)，诸如此类。</p>
+</blockquote>
+<blockquote>
+<p>redis 127.0.0.1:6379&gt; PSUBSCRIBE pattern [pattern …]</p>
+</blockquote>
+<p>返回值：接收到的信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; PSUBSCRIBE mychannel</span><br><span class="line">Reading messages... (press Ctrl-C to quit)</span><br><span class="line">1) &quot;psubscribe&quot;</span><br><span class="line">2) &quot;mychannel&quot;</span><br><span class="line">3) (integer) 1</span><br></pre></td></tr></table></figure>
+
+<h6 id="punsubscribe"><a href="#punsubscribe" class="headerlink" title="punsubscribe"></a>punsubscribe</h6><p><em>用于退订所有给定模式的频道</em></p>
+<blockquote>
+<p>redis 127.0.0.1:6379&gt; PUNSUBSCRIBE [pattern [pattern …]]</p>
+</blockquote>
+<p>返回值：在不同客户端有不同表现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; PUNSUBSCRIBE mychannel </span><br><span class="line">1) &quot;punsubscribe&quot;</span><br><span class="line">2) &quot;a&quot;</span><br><span class="line">3) (integer) 1</span><br></pre></td></tr></table></figure>
+
+<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><p><em>需要开启两个 redis-cli 客户端。</em></p>
+<p><em><strong>创建可订阅频道名为 yang</strong></em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 第一个客户端</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; subscribe yang</span><br><span class="line">Reading messages... (press Ctrl-C to quit)</span><br><span class="line">1) &quot;subscribe&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) (integer) 1</span><br><span class="line">1) &quot;message&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) &quot;hello&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 第二个客户端</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; publish yang hello  # 发布信息</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
  
       <!-- reward -->
       
@@ -213,12 +227,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/17/Redis%E4%BA%8B%E5%8A%A1/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/20/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis%E4%BA%8B%E5%8A%A1/" rel="tag">Redis事务</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" rel="tag">Redis发布订阅</a></li></ul>
 
     </footer>
   </div>
@@ -226,19 +240,10 @@
    
   <nav class="article-nav">
     
+    
       <a href="/2022/05/18/Jedis/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            Jedis
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2022/05/17/Redis%E7%9A%84%E4%B8%89%E7%A7%8D%E7%89%B9%E6%AE%8A%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B-%E4%B8%89/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Redis的三种特殊数据类型(三)</div>
+        <div class="article-nav-title">Jedis</div>
       </a>
     
   </nav>
