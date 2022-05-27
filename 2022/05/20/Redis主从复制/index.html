@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>Redis发布订阅 |  平凡之路</title>
+      <title>Redis主从复制及哨兵模式 |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-Redis发布订阅"
+  id="post-Redis主从复制"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  Redis发布订阅
+  Redis主从复制及哨兵模式
 </h1>
  
 
@@ -72,8 +72,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/05/20/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" class="article-date">
-  <time datetime="2022-05-20T02:02:08.000Z" itemprop="datePublished">2022-05-20</time>
+      <a href="/2022/05/20/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" class="article-date">
+  <time datetime="2022-05-20T11:55:46.000Z" itemprop="datePublished">2022-05-20</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/Redis/">Redis</a>
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">858</span>
+            <span class="post-count">1.7k</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">5 分钟</span>
         </span>
     </span>
 </div>
@@ -108,66 +108,93 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h5 id="Redis发布订阅"><a href="#Redis发布订阅" class="headerlink" title="Redis发布订阅"></a>Redis发布订阅</h5><ol>
-<li>Redis 发布订阅 (pub&#x2F;sub) 是一种消息通信模式：发送者 (pub) 发送消息，订阅者 (sub) 接收消息。</li>
-<li>Redis 客户端可以订阅任意数量的频道。</li>
+  <h3 id="Redis主从复制"><a href="#Redis主从复制" class="headerlink" title="Redis主从复制"></a>Redis主从复制</h3><h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><ol>
+<li>主从复制，是指将一台Redis服务器的数据，复制到其他的Redis服务器。前者称为主节点(master&#x2F;leader)，后者称为从节点(slave&#x2F;follower)；<em>数据的复制是单向的</em>，只能由主节点到从节点。Master以写为主，Slave 以读为主。</li>
+<li>默认情况下，每台Redis服务器都是主节点；且一个主节点可以有多个从节点(或没有从节点)，但一个从节点只能有一个主节点。</li>
+<li>一般为一主二从，搭配哨兵模式</li>
 </ol>
-<h5 id="发布订阅命令"><a href="#发布订阅命令" class="headerlink" title="发布订阅命令"></a>发布订阅命令</h5><h6 id="subscribe"><a href="#subscribe" class="headerlink" title="subscribe"></a>subscribe</h6><p><em>用于订阅给定的一个或多个频道的信息</em></p>
+<h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><ol>
+<li>数据冗余：主从复制实现了数据的热备份，是持久化之外的一种数据冗余方式。</li>
+<li>故障恢复：当主节点出现问题时，可以由从节点提供服务，实现快速的故障恢复；实际上是一种服务的冗余。</li>
+<li>负载均衡：在主从复制的基础上，配合读写分离，可以由主节点提供写服务，由从节点提供读服务（即写Redis数据时应用连接主节点，读Redis数据时应用连接从节点），分担服务器负载；尤其是在写少读多的场景下，通过多个从节点分担读负载，可以大大提高Redis服务器的并发量,</li>
+<li>高可用（集群）基石：除了上述作用以外，主从复制还是哨兵和集群能够实施的基础，因此说主从复制是Redis高可用的基础。</li>
+</ol>
+<h5 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h5><p>一般来说，要将Redis运用于工程项目中，只使用一台Redis是万万不能的，原因如下</p>
+<ol>
+<li>从结构上，单个Redis服务器会发生单点故障，并且一台服务器需要处理所有的请求负载，压力较大；</li>
+<li>从容量上，单个Redis服务器内存容量有限，就算一台Redis服务器内存容量为256G，也不能将所有内存用作Redis存储内存，一般来说，单台Redis最大使用内存不应该超过20G。</li>
+<li>电商网站上的商品，一般都是一次上传，无数次浏览的，说专业点也就是”多读少写”。对于这种场景，就要使用主从复制。</li>
+</ol>
+<h5 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h5><p><em>只配置从库，不用配置主库</em></p>
+<ol>
+<li><p>复制3个配置文件，然后修改对应的信息</p>
+<ul>
+<li>端口</li>
+<li>pid名字</li>
+<li>log文件名字</li>
+<li>dump.rdb名字</li>
+</ul>
+</li>
+<li><p>一主二从</p>
 <blockquote>
-<p>redis 127.0.0.1:6379&gt; SUBSCRIBE channel [channel …]</p>
+<p>127.0.0.1:6380&gt; SLAVEOF 127.0.0.1 6379   # SLAVEOF host 端口</p>
 </blockquote>
-<p>返回值：接收到的信息</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; subscribe yang</span><br><span class="line">Reading messages... (press Ctrl-C to quit)</span><br><span class="line">1) &quot;subscribe&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) (integer) 1</span><br><span class="line">1) &quot;message&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) &quot;hello&quot;</span><br></pre></td></tr></table></figure>
-
-<h6 id="publish"><a href="#publish" class="headerlink" title="publish"></a>publish</h6><p><em>用于将信息发送到指定的频道</em></p>
+<p><em>查看配置信息</em></p>
 <blockquote>
-<p>redis 127.0.0.1:6379&gt; PUBLISH channel message</p>
+<p>info replication</p>
 </blockquote>
-<p>返回值：接收到信息的订阅者数量</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; publish yang hello  # 发布信息</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
-
-<h6 id="unsubcribe"><a href="#unsubcribe" class="headerlink" title="unsubcribe"></a>unsubcribe</h6><p><em>用于订阅给定的一个或多个频道的信息</em></p>
+</li>
+<li><p>若要永久有效，则应该在配置文件中配置</p>
+</li>
+</ol>
+<h5 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h5><ol>
+<li>主机可以写，从机不能写只能读，主机中所有信息和数据，都会自动被从机保存。</li>
+<li>主机断开连接，从机依旧可连接到主机，但没有写操作；若主机重新连接，从机依旧可以获取到主机写的信息。</li>
+</ol>
+<h5 id="复制原理"><a href="#复制原理" class="headerlink" title="复制原理"></a>复制原理</h5><ol>
+<li>Slave 启动成功连接到master后会发送一个sync同步命令，Master接到命令，启动后台的存盘进程，同时收集所有接收到的用于修改数据集命令，在后台进程执行完毕之后，master将传送整个数据文件到slave，并完成一次完全同步。</li>
+<li>全量复制：而slave服务在接收到数据库文件数据后，将其存盘并加载到内存中。</li>
+<li>增量复制：Master继续将新的所有收集到的修改命令依次传给slave，完成同步</li>
+<li>但是只要是重新连接master，一次完全同步（全量复制)将被自动执行</li>
+</ol>
+<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><h5 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h5><ol>
+<li><p>主从切换技术的方法是︰当主服务器宕机后，需要手动把一台从服务器切换为主服务器，这就需要人工干预，费事费力，还会造成一段时间内服务不可用。这不是一种推荐的方式，更多时候，我们优先考虑哨兵模式。Redis从2.8开始正式提供了Sentinel (哨兵）架构来解决这个问题。</p>
+</li>
+<li><p>谋朝篡位的自动版，能够后台监控主机是否故障，如果故障了根据投票数自动将从库转换为主库。</p>
+</li>
+<li><p>哨兵模式是一种特殊的模式，首先Redis提供了哨兵的命令，哨兵是一个独立的进程，作为进程，它会独立运行。其原理是哨兵通过发送命令，等待Redis服务器响应，从而监控运行的多个Redis实例。</p>
+</li>
+<li><p>这里的哨兵有两个作用</p>
+<ul>
+<li>通过发送命令，让Redis服务器返回监控其运行状态，包括主服务器和从服务器。</li>
+<li>当哨兵监测到master宕机，会自动将slave切换成master，然后通过发布订阅模式通知其他的从服务器，修改配置文件，让它们切换主机。</li>
+</ul>
+<p><em><strong>然而一个哨兵进程对Redis服务器进行监控，可能会出现问题，为此，我们可以使用多个哨兵进行监控。各个哨兵之间还会进行监控，这样就形成了多哨兵模式。</strong></em></p>
+<p><em><strong>最简单的为三个哨兵，一个主节点，两个从节点</strong></em></p>
+</li>
+<li><p>假设主服务器宕机，哨兵1先检测到这个结果，系统并不会马上进行fallover过程，仅仅是哨兵1主观的认为主服务器不可用，这个现象成为<strong>主观下线</strong>。当后面的哨兵也检测到主服务器不可用，并且数量达到一定值时，那么哨兵之间就会进行一次投票，投票的结果由一个哨兵发起，进行failover[故障转移]操作。切换成功后，就会通过发布订阅模式，让各个哨兵把自己监控的从服务器实现切换主机，这个过程称为<strong>客观下线</strong>。</p>
+</li>
+</ol>
+<h5 id="环境配置-1"><a href="#环境配置-1" class="headerlink" title="环境配置"></a>环境配置</h5><ol>
+<li><p>配置哨兵配置文件 sentinel.conf</p>
 <blockquote>
-<p>redis 127.0.0.1:6379&gt; UNSUBSCRIBE channel [channel …]</p>
+<p>#sentinel monitor 被监控的名称 host port 1</p>
+<p>sentinel monitor myredis 127.0.0.1 6379 1</p>
 </blockquote>
-<p>返回值：在不同的客户端有不同的表现</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; unsubscribe yang</span><br><span class="line">1) &quot;unsubscribe&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) (integer) 0</span><br></pre></td></tr></table></figure>
-
-<h6 id="pubsub"><a href="#pubsub" class="headerlink" title="pubsub"></a>pubsub</h6><p><em>用于查看订阅与发布系统状态，它由数个不同规格的子命令组成</em></p>
-<blockquote>
-<p>redis 127.0.0.1:6379&gt; PUBSUB <subcommand> [argument [argument …]]</p>
-</blockquote>
-<p>返回值：由活跃频道组成的列表</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; PUBSUB CHANNELS</span><br><span class="line">(empty list or set)</span><br></pre></td></tr></table></figure>
-
-<h6 id="psubscribe"><a href="#psubscribe" class="headerlink" title="psubscribe"></a>psubscribe</h6><p><em>订阅一个或多个符合给定模式的频道</em></p>
-<blockquote>
-<p>每个模式以 * 作为匹配符，比如 it* 匹配所有以 it 开头的频道( it.news 、 it.blog 、 it.tweets 等等)。 news.* 匹配所有以 news. 开头的频道( news.it 、 news.global.today 等等)，诸如此类。</p>
-</blockquote>
-<blockquote>
-<p>redis 127.0.0.1:6379&gt; PSUBSCRIBE pattern [pattern …]</p>
-</blockquote>
-<p>返回值：接收到的信息</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; PSUBSCRIBE mychannel</span><br><span class="line">Reading messages... (press Ctrl-C to quit)</span><br><span class="line">1) &quot;psubscribe&quot;</span><br><span class="line">2) &quot;mychannel&quot;</span><br><span class="line">3) (integer) 1</span><br></pre></td></tr></table></figure>
-
-<h6 id="punsubscribe"><a href="#punsubscribe" class="headerlink" title="punsubscribe"></a>punsubscribe</h6><p><em>用于退订所有给定模式的频道</em></p>
-<blockquote>
-<p>redis 127.0.0.1:6379&gt; PUNSUBSCRIBE [pattern [pattern …]]</p>
-</blockquote>
-<p>返回值：在不同客户端有不同表现</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; PUNSUBSCRIBE mychannel </span><br><span class="line">1) &quot;punsubscribe&quot;</span><br><span class="line">2) &quot;a&quot;</span><br><span class="line">3) (integer) 1</span><br></pre></td></tr></table></figure>
-
-<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><p><em>需要开启两个 redis-cli 客户端。</em></p>
-<p><em><strong>创建可订阅频道名为 yang</strong></em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 第一个客户端</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; subscribe yang</span><br><span class="line">Reading messages... (press Ctrl-C to quit)</span><br><span class="line">1) &quot;subscribe&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) (integer) 1</span><br><span class="line">1) &quot;message&quot;</span><br><span class="line">2) &quot;yang&quot;</span><br><span class="line">3) &quot;hello&quot;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 第二个客户端</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; publish yang hello  # 发布信息</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
-
-<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><ol>
-<li>Redis是使用C实现的，通过分析Redis源码里的pubsub.c文件，了解发布和订阅机制的底层原理实现</li>
-<li>通过SUBSCRIBE命令订阅某频道后，redis-server里维护了一个字典，字典的键就是一个个频道，而字典的值则是一个链表，链表中保存了所有订阅这个channel的客户端，SUBSCRIBE命令的关键，就是将客户端添加到给定channel的订阅链表中。</li>
-<li>通过PUBLISH命令向 订阅者发送消息，redis-server会使用给定的频道作为键，在它所维护的channel字典中查找记录了订阅这个频道的所有客户端的链表，遍历这个链表，将消息发布给所有订阅者。</li>
-<li>Pub&#x2F;Sub从字面上理解就是发布和订阅，在Redis中，你可以设定对某一个key值进行了消息发布后，所有订阅它的客户端都会收到相应的消息，这一功能最明显的用法就是用作实时消息系统，比如普通的即时聊天，群聊等功能。</li>
+<p>后面的这个数字1，代表主机挂了，slave投票看让谁接替成为主机，票数最多的，就会成为主机 !</p>
+</li>
+<li><p>启动哨兵</p>
+</li>
+</ol>
+<h5 id="哨兵模式-1"><a href="#哨兵模式-1" class="headerlink" title="哨兵模式"></a>哨兵模式</h5><p><em>如果宕机后的主机重新连接后，只能归并到新的主机下，当作从机</em></p>
+<h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ol>
+<li>哨兵集群，基于主从复制模式，所有的主从配置优点，它全有</li>
+<li>主从可以切换，故障可以转移，系统的可用性就会更好</li>
+<li>哨兵模式就是主从模式的升级，手动到自动，更加健壮</li>
+</ol>
+<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6><ol>
+<li>Redis 不好啊在线扩容的，集群容量一旦到达上限，在线扩容就十分麻烦</li>
+<li>实现哨兵模式的配置其实是很麻烦的，里面有很多选择</li>
 </ol>
  
       <!-- reward -->
@@ -233,12 +260,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/20/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/05/20/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" rel="tag">Redis发布订阅</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F/" rel="tag">Redis哨兵模式</a></li></ul>
 
     </footer>
   </div>
@@ -246,19 +273,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/05/20/Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" class="article-nav-link">
+      <a href="/2022/05/21/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%92%8C%E9%9B%AA%E5%B4%A9/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            Redis主从复制及哨兵模式
+            Redis缓存穿透和雪崩
           
         </div>
       </a>
     
     
-      <a href="/2022/05/18/Jedis/" class="article-nav-link">
+      <a href="/2022/05/20/Redis%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Jedis</div>
+        <div class="article-nav-title">Redis发布订阅</div>
       </a>
     
   </nav>
