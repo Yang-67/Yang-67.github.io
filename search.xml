@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>Linux学习-常用命令</title>
+      <link href="/2022/07/06/Linux%E5%AD%A6%E4%B9%A0-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+      <url>/2022/07/06/Linux%E5%AD%A6%E4%B9%A0-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Linux文件基本属性"><a href="#Linux文件基本属性" class="headerlink" title="Linux文件基本属性"></a>Linux文件基本属性</h3><ol><li>chown（change owner）：修改所属用户和组</li><li>chmod（change mode）：修改用户的权限</li></ol><blockquote><p>drwxr-xr-x.  95 root root 12288 Jul  4 22:03 etc</p></blockquote><p>每个文件的属性由左边第一部分的 10 个字符来确定（如下图）</p><p><img src="https://www.runoob.com/wp-content/uploads/2014/06/363003_1227493859FdXT.png" alt="363003_1227493859FdXT"></p><ul><li>从左至右用0-9这些数字来表示</li><li>第<strong>0</strong>位确定文件类型，第<strong>1-3</strong>位确定属主（该文件的所有者）拥有该文件的权限，第<strong>4-6</strong>位确定属组（所有者的同组用户）拥有该文件的权限，第<strong>7-9</strong>位确定其他用户拥有该文件的权限</li><li>其中，第<strong>1、4、7</strong>位表示读权限，如果用<code>r</code> 字符表示，则有读权限，如果用<code>-</code> 字符表示，则没有读权限；第<strong>2、5、8</strong>位表示写权限，如果用<strong>w</strong>字符表示，则有写权限，如果用<code>w</code> 字符表示，则有写权限，如果用<code>-</code> 字符表示则没有写权限；第<strong>3、6、9</strong>位表示可执行权限，如果用<code>x</code> 字符表示，则有执行权限，如果用<code>-</code> 字符表示，则没有执行权限。</li></ul><h5 id="Linux文件属主和属组"><a href="#Linux文件属主和属组" class="headerlink" title="Linux文件属主和属组"></a>Linux文件属主和属组</h5><ol><li>对于文件来说，它都有一个特定的所有者，也就是对该文件具有所有权的用户</li><li>在linux系统中，用户是按组分类的，一个用户属于一个或多个组；文件所有者以外的用户又可以分为文件所属组的同组用户和其他用户；因此，Linux系统按文件所有者、文件所有者同组用户和其他用户来规定了不同的文件访问权限。</li><li>在以上实例中，<code>etc</code> 文件是一个目录文件，属主和属组都是<code>root</code> ，属主有可读可写可执行的权限，与属主同组的其他用户有可读可执行的权限，其他用户有可读可执行的权限</li></ol><h5 id="更改文件属性"><a href="#更改文件属性" class="headerlink" title="更改文件属性"></a>更改文件属性</h5><h6 id="chgrp：更改文件属组"><a href="#chgrp：更改文件属组" class="headerlink" title="chgrp：更改文件属组"></a>chgrp：更改文件属组</h6><p>语法：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chgrp [-R] 属组名 文件名</span><br></pre></td></tr></table></figure><p>参数选项</p><ul><li>-R：递归更改文件属组，就是在更改某个目录文件的属组时，如果加上-R的参数，那么该目录下的所有文件的属组都会更改。</li></ul><h6 id="chown：更改文件属主，也可以同时更改文件属组"><a href="#chown：更改文件属主，也可以同时更改文件属组" class="headerlink" title="chown：更改文件属主，也可以同时更改文件属组"></a>chown：更改文件属主，也可以同时更改文件属组</h6><p>语法：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown [–R] 属主名 文件名</span><br><span class="line">chown [-R] 属主名：属组名 文件名</span><br></pre></td></tr></table></figure><h6 id="chmod：更改文件9个属性"><a href="#chmod：更改文件9个属性" class="headerlink" title="chmod：更改文件9个属性"></a>chmod：更改文件9个属性</h6><ol><li><p>Linux文件属性有两种设置方法，一种是数字，一种是符号</p></li><li><p>Linux文件的基本权限有9个，分别是 <strong>owner&#x2F;group&#x2F;others(拥有者&#x2F;组&#x2F;其他)</strong> 三种身份各有自己的 <strong>read&#x2F;write&#x2F;execute</strong> 权限。</p></li><li><p>九个权限每三个一组，其中，我们可以使用数字来表示各个权限，即</p><ul><li>r：4</li><li>w：2</li><li>x：1</li></ul></li><li><p>语法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod [-R] xyz 文件或目录</span><br></pre></td></tr></table></figure></li><li><p>选项与参数：</p><ul><li><strong>xyz</strong> : 就是刚刚提到的数字类型的权限属性，为 <strong>rwx</strong> 属性数值的相加。</li><li><strong>-R</strong> : 进行递归(recursive)的持续变更，以及连同次目录下的所有文件都会变更</li></ul></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux常用命令 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux学习-系统目录结构</title>
+      <link href="/2022/07/05/Linux%E5%AD%A6%E4%B9%A0-%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/"/>
+      <url>/2022/07/05/Linux%E5%AD%A6%E4%B9%A0-%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Linux系统启动过程"><a href="#Linux系统启动过程" class="headerlink" title="Linux系统启动过程"></a>Linux系统启动过程</h3><ol><li>内核的引导</li><li>运行 init</li><li>系统初始化</li><li>建立终端 </li><li>用户登录系统<ul><li>命令行登录</li><li>ssh登录</li><li>图形界面登录</li></ul></li></ol><blockquote><p>init程序的类型：</p><ul><li><strong>SysV:</strong> init, CentOS 5之前, 配置文件： &#x2F;etc&#x2F;inittab。</li><li><strong>Upstart:</strong> init,CentOS 6, 配置文件： &#x2F;etc&#x2F;inittab, &#x2F;etc&#x2F;init&#x2F;*.conf。</li><li><strong>Systemd：</strong> systemd, CentOS 7,配置文件： &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system、 &#x2F;etc&#x2F;systemd&#x2F;system。</li></ul></blockquote><h3 id="Linux关机"><a href="#Linux关机" class="headerlink" title="Linux关机"></a>Linux关机</h3><p>关机流程为：sync &gt; shutdown &gt; reboot &gt; halt</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sync 将数据由内存同步到硬盘中。</span><br><span class="line"></span><br><span class="line">shutdown 关机指令，你可以man shutdown 来看一下帮助文档。例如你可以运行如下命令关机：</span><br><span class="line"></span><br><span class="line">shutdown –h 10 ‘This server will shutdown after 10 mins’ 这个命令告诉大家，计算机将在10分钟后关机，并且会显示在登陆用户的当前屏幕中。</span><br><span class="line"></span><br><span class="line">shutdown –h now 立马关机</span><br><span class="line"></span><br><span class="line">shutdown –h 20:25 系统会在今天20:25关机</span><br><span class="line"></span><br><span class="line">shutdown –h +10 十分钟后关机</span><br><span class="line"></span><br><span class="line">shutdown –r now 系统立马重启</span><br><span class="line"></span><br><span class="line">shutdown –r +10 系统十分钟后重启</span><br><span class="line"></span><br><span class="line">reboot 就是重启，等同于 shutdown –r now</span><br><span class="line"></span><br><span class="line">halt 关闭系统，等同于shutdown –h now 和 poweroff</span><br></pre></td></tr></table></figure><p>不管是重启系统还是关闭系统，首先要运行 <strong>sync</strong> 命令，把内存中的数据写到磁盘中。</p><p>关机的命令有 <strong>shutdown –h now halt poweroff</strong> 和 <strong>init 0</strong> , 重启系统的命令有 <strong>shutdown –r now reboot init 6</strong>。</p><h3 id="Linux系统目录结构"><a href="#Linux系统目录结构" class="headerlink" title="Linux系统目录结构"></a>Linux系统目录结构</h3><p><img src="https://www.runoob.com/wp-content/uploads/2014/06/d0c50-linux2bfile2bsystem2bhierarchy.jpg" alt="img"></p><p>以下是对这些目录的解释：</p><ul><li><p><strong>&#x2F;bin</strong>：<br>bin 是 Binaries (二进制文件) 的缩写, 这个目录存放着最经常使用的命令。</p></li><li><p><strong>&#x2F;boot：</strong><br>这里存放的是启动 Linux 时使用的一些核心文件，包括一些连接文件以及镜像文件。</p></li><li><p><strong>&#x2F;dev ：</strong><br>dev 是 Device(设备) 的缩写, 该目录下存放的是 Linux 的外部设备，在 Linux 中访问设备的方式和访问文件的方式是相同的。</p></li><li><p><strong>&#x2F;etc：</strong><br>etc 是 Etcetera(等等) 的缩写,这个目录用来存放所有的系统管理所需要的配置文件和子目录。</p></li><li><p><strong>&#x2F;home</strong>：<br>用户的主目录，在 Linux 中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的，如上图中的 alice、bob 和 eve。</p></li><li><p><strong>&#x2F;lib</strong>：<br>lib 是 Library(库) 的缩写这个目录里存放着系统最基本的动态连接共享库，其作用类似于 Windows 里的 DLL 文件。几乎所有的应用程序都需要用到这些共享库。</p></li><li><p><strong>&#x2F;lost+found</strong>：<br>这个目录一般情况下是空的，当系统非法关机后，这里就存放了一些文件。</p></li><li><p><strong>&#x2F;media</strong>：<br>linux 系统会自动识别一些设备，例如U盘、光驱等等，当识别后，Linux 会把识别的设备挂载到这个目录下。</p></li><li><p><strong>&#x2F;mnt</strong>：<br>系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在 &#x2F;mnt&#x2F; 上，然后进入该目录就可以查看光驱里的内容了。</p></li><li><p><strong>&#x2F;opt</strong>：<br>opt 是 optional(可选) 的缩写，这是给主机额外安装软件所摆放的目录。比如你安装一个ORACLE数据库则就可以放到这个目录下。默认是空的。</p></li><li><p><strong>&#x2F;proc</strong>：<br>proc 是 Processes(进程) 的缩写，&#x2F;proc 是一种伪文件系统（也即虚拟文件系统），存储的是当前内核运行状态的一系列特殊文件，这个目录是一个虚拟的目录，它是系统内存的映射，我们可以通过直接访问这个目录来获取系统信息。<br>这个目录的内容不在硬盘上而是在内存里，我们也可以直接修改里面的某些文件，比如可以通过下面的命令来屏蔽主机的ping命令，使别人无法ping你的机器：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</span><br></pre></td></tr></table></figure></li><li><p><strong>&#x2F;root</strong>：<br>该目录为系统管理员，也称作超级权限者的用户主目录。</p></li><li><p><strong>&#x2F;sbin</strong>：<br>s 就是 Super User 的意思，是 Superuser Binaries (超级用户的二进制文件) 的缩写，这里存放的是系统管理员使用的系统管理程序。</p></li><li><p><strong>&#x2F;selinux</strong>：<br> 这个目录是 Redhat&#x2F;CentOS 所特有的目录，Selinux 是一个安全机制，类似于 windows 的防火墙，但是这套机制比较复杂，这个目录就是存放selinux相关的文件的。</p></li><li><p><strong>&#x2F;srv</strong>：<br> 该目录存放一些服务启动之后需要提取的数据。</p></li><li><p><strong>&#x2F;sys</strong>：</p><p>这是 Linux2.6 内核的一个很大的变化。该目录下安装了 2.6 内核中新出现的一个文件系统 sysfs 。</p><p>sysfs 文件系统集成了下面3种文件系统的信息：针对进程信息的 proc 文件系统、针对设备的 devfs 文件系统以及针对伪终端的 devpts 文件系统。</p><p>该文件系统是内核设备树的一个直观反映。</p><p>当一个内核对象被创建的时候，对应的文件和目录也在内核对象子系统中被创建。</p></li><li><p><strong>&#x2F;tmp</strong>：<br>tmp 是 temporary(临时) 的缩写这个目录是用来存放一些临时文件的。</p></li><li><p><strong>&#x2F;usr</strong>：<br> usr 是 unix shared resources(共享资源) 的缩写，这是一个非常重要的目录，用户的很多应用程序和文件都放在这个目录下，类似于 windows 下的 program files 目录。</p></li><li><p><strong>&#x2F;usr&#x2F;bin：</strong><br>系统用户使用的应用程序。</p></li><li><p><strong>&#x2F;usr&#x2F;sbin：</strong><br>超级用户使用的比较高级的管理程序和系统守护程序。</p></li><li><p><strong>&#x2F;usr&#x2F;src：</strong><br>内核源代码默认的放置目录。</p></li><li><p><strong>&#x2F;var</strong>：<br>var 是 variable(变量) 的缩写，这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。</p></li><li><p><strong>&#x2F;run</strong>：<br>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除。如果你的系统上有 &#x2F;var&#x2F;run 目录，应该让它指向 run。</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux目录结构 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>int和Integer比较</title>
       <link href="/2022/06/02/int%E5%92%8CInteger%E6%AF%94%E8%BE%83/"/>
       <url>/2022/06/02/int%E5%92%8CInteger%E6%AF%94%E8%BE%83/</url>

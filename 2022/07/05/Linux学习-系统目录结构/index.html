@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>int和Integer比较 |  平凡之路</title>
+      <title>Linux学习-系统目录结构 |  平凡之路</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-int和Integer比较"
+  id="post-Linux学习-系统目录结构"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  int和Integer比较
+  Linux学习-系统目录结构
 </h1>
  
 
@@ -72,11 +72,11 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2022/06/02/int%E5%92%8CInteger%E6%AF%94%E8%BE%83/" class="article-date">
-  <time datetime="2022-06-02T12:06:03.000Z" itemprop="datePublished">2022-06-02</time>
+      <a href="/2022/07/05/Linux%E5%AD%A6%E4%B9%A0-%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" class="article-date">
+  <time datetime="2022-07-05T13:06:54.000Z" itemprop="datePublished">2022-07-05</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/java%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/">java成长之路</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
   </div>
   
 <div class="word_count">
@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">491</span>
+            <span class="post-count">1.5k</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">5 分钟</span>
         </span>
     </span>
 </div>
@@ -108,36 +108,86 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h5 id="int和Integer比较"><a href="#int和Integer比较" class="headerlink" title="int和Integer比较"></a>int和Integer比较</h5><h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><ol>
-<li>Integer是int的包装类，int则是java的一种基本数据类型</li>
-<li>Integer变量必须实例化后才能使用，而int变量不需要</li>
-<li>Integer实际是对象的引用，当new一个Integer时，实际上是生成一个指针指向此对象；而int则是直接存储数据值</li>
-<li>Integer的默认值是null，int的默认值是0</li>
+  <h3 id="Linux系统启动过程"><a href="#Linux系统启动过程" class="headerlink" title="Linux系统启动过程"></a>Linux系统启动过程</h3><ol>
+<li>内核的引导</li>
+<li>运行 init</li>
+<li>系统初始化</li>
+<li>建立终端 </li>
+<li>用户登录系统<ul>
+<li>命令行登录</li>
+<li>ssh登录</li>
+<li>图形界面登录</li>
+</ul>
+</li>
 </ol>
-<h5 id="两个Integer变量比较"><a href="#两个Integer变量比较" class="headerlink" title="两个Integer变量比较"></a>两个Integer变量比较</h5><p>由于Integer变量实际上是对一个Integer对象的引用，所以两个通过new生成的Integer变量永远是<code>false</code></p>
-<p>因为new生成的是两个对象，其内存地址不同</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">i</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">88</span>);</span><br><span class="line"><span class="type">Integer</span> <span class="variable">j</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">88</span>);</span><br><span class="line">System.out.print(i == j); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>init程序的类型：</p>
+<ul>
+<li><strong>SysV:</strong> init, CentOS 5之前, 配置文件： &#x2F;etc&#x2F;inittab。</li>
+<li><strong>Upstart:</strong> init,CentOS 6, 配置文件： &#x2F;etc&#x2F;inittab, &#x2F;etc&#x2F;init&#x2F;*.conf。</li>
+<li><strong>Systemd：</strong> systemd, CentOS 7,配置文件： &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system、 &#x2F;etc&#x2F;systemd&#x2F;system。</li>
+</ul>
+</blockquote>
+<h3 id="Linux关机"><a href="#Linux关机" class="headerlink" title="Linux关机"></a>Linux关机</h3><p>关机流程为：sync &gt; shutdown &gt; reboot &gt; halt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sync 将数据由内存同步到硬盘中。</span><br><span class="line"></span><br><span class="line">shutdown 关机指令，你可以man shutdown 来看一下帮助文档。例如你可以运行如下命令关机：</span><br><span class="line"></span><br><span class="line">shutdown –h 10 ‘This server will shutdown after 10 mins’ 这个命令告诉大家，计算机将在10分钟后关机，并且会显示在登陆用户的当前屏幕中。</span><br><span class="line"></span><br><span class="line">shutdown –h now 立马关机</span><br><span class="line"></span><br><span class="line">shutdown –h 20:25 系统会在今天20:25关机</span><br><span class="line"></span><br><span class="line">shutdown –h +10 十分钟后关机</span><br><span class="line"></span><br><span class="line">shutdown –r now 系统立马重启</span><br><span class="line"></span><br><span class="line">shutdown –r +10 系统十分钟后重启</span><br><span class="line"></span><br><span class="line">reboot 就是重启，等同于 shutdown –r now</span><br><span class="line"></span><br><span class="line">halt 关闭系统，等同于shutdown –h now 和 poweroff</span><br></pre></td></tr></table></figure>
 
-
-
-<h5 id="Integer变量和int变量比较"><a href="#Integer变量和int变量比较" class="headerlink" title="Integer变量和int变量比较"></a>Integer变量和int变量比较</h5><p>Integer变量和int变量比较时，只要两个变量的值是相等的，则结果为<code>true</code></p>
-<p>因为包装类Integer和基本数据类型int比较时，java会自动拆箱为int，然后进行比较，实际上就变为两个int变量的比较</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">i</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">88</span>);</span><br><span class="line"><span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">88</span>;</span><br><span class="line">System.out.print(i == j); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="非new生成的Integer变量和new-Integer-生成的变量比较"><a href="#非new生成的Integer变量和new-Integer-生成的变量比较" class="headerlink" title="非new生成的Integer变量和new Integer()生成的变量比较"></a>非new生成的Integer变量和new Integer()生成的变量比较</h5><p>非new生成的Integer变量和new Integer()生成的变量比较时，结果为<code>false</code>。</p>
-<p>因为非new生成的Integer变量指向的是Java常量池中的对象，而new Integer()生成的变量指向堆中新建的对象，两者在内存中过的地址不同</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">i</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">88</span>);</span><br><span class="line"><span class="type">Integer</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">88</span>;</span><br><span class="line">System.out.print(i == j); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="两个非new生成的Integer对象比较"><a href="#两个非new生成的Integer对象比较" class="headerlink" title="两个非new生成的Integer对象比较"></a>两个非new生成的Integer对象比较</h5><p>对于两个非new生成的Integer对象，进行比较时</p>
-<p>如果两个变量的值在区间-128到127之间，则比较结果为<code>true</code></p>
-<p>如果两个变量的值不在此区间，则比较结果为<code>false</code></p>
-<p>因为Integer的缓存机制会对-128到127的数进行缓存，若下次整形变量赋值为-128到127之间则会直接从缓存中取</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">88</span>;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">88</span>;</span><br><span class="line">System.out.print(i == j); <span class="comment">//true</span></span><br><span class="line">  </span><br><span class="line"><span class="type">Integer</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">128</span>;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">128</span>;</span><br><span class="line">System.out.print(i == j); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
-
+<p>不管是重启系统还是关闭系统，首先要运行 <strong>sync</strong> 命令，把内存中的数据写到磁盘中。</p>
+<p>关机的命令有 <strong>shutdown –h now halt poweroff</strong> 和 <strong>init 0</strong> , 重启系统的命令有 <strong>shutdown –r now reboot init 6</strong>。</p>
+<h3 id="Linux系统目录结构"><a href="#Linux系统目录结构" class="headerlink" title="Linux系统目录结构"></a>Linux系统目录结构</h3><p><img src="https://www.runoob.com/wp-content/uploads/2014/06/d0c50-linux2bfile2bsystem2bhierarchy.jpg" alt="img"></p>
+<p>以下是对这些目录的解释：</p>
+<ul>
+<li><p><strong>&#x2F;bin</strong>：<br>bin 是 Binaries (二进制文件) 的缩写, 这个目录存放着最经常使用的命令。</p>
+</li>
+<li><p><strong>&#x2F;boot：</strong><br>这里存放的是启动 Linux 时使用的一些核心文件，包括一些连接文件以及镜像文件。</p>
+</li>
+<li><p><strong>&#x2F;dev ：</strong><br>dev 是 Device(设备) 的缩写, 该目录下存放的是 Linux 的外部设备，在 Linux 中访问设备的方式和访问文件的方式是相同的。</p>
+</li>
+<li><p><strong>&#x2F;etc：</strong><br>etc 是 Etcetera(等等) 的缩写,这个目录用来存放所有的系统管理所需要的配置文件和子目录。</p>
+</li>
+<li><p><strong>&#x2F;home</strong>：<br>用户的主目录，在 Linux 中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的，如上图中的 alice、bob 和 eve。</p>
+</li>
+<li><p><strong>&#x2F;lib</strong>：<br>lib 是 Library(库) 的缩写这个目录里存放着系统最基本的动态连接共享库，其作用类似于 Windows 里的 DLL 文件。几乎所有的应用程序都需要用到这些共享库。</p>
+</li>
+<li><p><strong>&#x2F;lost+found</strong>：<br>这个目录一般情况下是空的，当系统非法关机后，这里就存放了一些文件。</p>
+</li>
+<li><p><strong>&#x2F;media</strong>：<br>linux 系统会自动识别一些设备，例如U盘、光驱等等，当识别后，Linux 会把识别的设备挂载到这个目录下。</p>
+</li>
+<li><p><strong>&#x2F;mnt</strong>：<br>系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在 &#x2F;mnt&#x2F; 上，然后进入该目录就可以查看光驱里的内容了。</p>
+</li>
+<li><p><strong>&#x2F;opt</strong>：<br>opt 是 optional(可选) 的缩写，这是给主机额外安装软件所摆放的目录。比如你安装一个ORACLE数据库则就可以放到这个目录下。默认是空的。</p>
+</li>
+<li><p><strong>&#x2F;proc</strong>：<br>proc 是 Processes(进程) 的缩写，&#x2F;proc 是一种伪文件系统（也即虚拟文件系统），存储的是当前内核运行状态的一系列特殊文件，这个目录是一个虚拟的目录，它是系统内存的映射，我们可以通过直接访问这个目录来获取系统信息。<br>这个目录的内容不在硬盘上而是在内存里，我们也可以直接修改里面的某些文件，比如可以通过下面的命令来屏蔽主机的ping命令，使别人无法ping你的机器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>&#x2F;root</strong>：<br>该目录为系统管理员，也称作超级权限者的用户主目录。</p>
+</li>
+<li><p><strong>&#x2F;sbin</strong>：<br>s 就是 Super User 的意思，是 Superuser Binaries (超级用户的二进制文件) 的缩写，这里存放的是系统管理员使用的系统管理程序。</p>
+</li>
+<li><p><strong>&#x2F;selinux</strong>：<br> 这个目录是 Redhat&#x2F;CentOS 所特有的目录，Selinux 是一个安全机制，类似于 windows 的防火墙，但是这套机制比较复杂，这个目录就是存放selinux相关的文件的。</p>
+</li>
+<li><p><strong>&#x2F;srv</strong>：<br> 该目录存放一些服务启动之后需要提取的数据。</p>
+</li>
+<li><p><strong>&#x2F;sys</strong>：</p>
+<p>这是 Linux2.6 内核的一个很大的变化。该目录下安装了 2.6 内核中新出现的一个文件系统 sysfs 。</p>
+<p>sysfs 文件系统集成了下面3种文件系统的信息：针对进程信息的 proc 文件系统、针对设备的 devfs 文件系统以及针对伪终端的 devpts 文件系统。</p>
+<p>该文件系统是内核设备树的一个直观反映。</p>
+<p>当一个内核对象被创建的时候，对应的文件和目录也在内核对象子系统中被创建。</p>
+</li>
+<li><p><strong>&#x2F;tmp</strong>：<br>tmp 是 temporary(临时) 的缩写这个目录是用来存放一些临时文件的。</p>
+</li>
+<li><p><strong>&#x2F;usr</strong>：<br> usr 是 unix shared resources(共享资源) 的缩写，这是一个非常重要的目录，用户的很多应用程序和文件都放在这个目录下，类似于 windows 下的 program files 目录。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;bin：</strong><br>系统用户使用的应用程序。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;sbin：</strong><br>超级用户使用的比较高级的管理程序和系统守护程序。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;src：</strong><br>内核源代码默认的放置目录。</p>
+</li>
+<li><p><strong>&#x2F;var</strong>：<br>var 是 variable(变量) 的缩写，这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。</p>
+</li>
+<li><p><strong>&#x2F;run</strong>：<br>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除。如果你的系统上有 &#x2F;var&#x2F;run 目录，应该让它指向 run。</p>
+</li>
+</ul>
  
       <!-- reward -->
       
@@ -202,12 +252,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/06/02/int%E5%92%8CInteger%E6%AF%94%E8%BE%83/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/07/05/Linux%E5%AD%A6%E4%B9%A0-%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" rel="tag">数据类型</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" rel="tag">Linux目录结构</a></li></ul>
 
     </footer>
   </div>
@@ -215,19 +265,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2022/07/05/Linux%E5%AD%A6%E4%B9%A0-%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" class="article-nav-link">
+      <a href="/2022/07/06/Linux%E5%AD%A6%E4%B9%A0-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            Linux学习-系统目录结构
+            Linux学习-常用命令
           
         </div>
       </a>
     
     
-      <a href="/2022/05/26/Swagger%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-nav-link">
+      <a href="/2022/06/02/int%E5%92%8CInteger%E6%AF%94%E8%BE%83/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Swagger的使用</div>
+        <div class="article-nav-title">int和Integer比较</div>
       </a>
     
   </nav>
